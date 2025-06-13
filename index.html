@@ -1,0 +1,4157 @@
+<!DOCTYPE html>
+<html lang="es"> 
+<p id="inicio"></p>
+<head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <title>SolarSur</title>
+        <link rel="icon" href="favicon.png" type="image/png">
+                <!--llamar al archivo donde se agregaran los estilos-->
+        <link rel="stylesheet" href="styles.css">
+        <link rel="stylesheet" href="path/to/normalize.css">
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Boldonse&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie.min.js"></script>
+</head>
+<!-- Modal de confirmación de envío -->
+<!-- Modal de confirmación de envío -->
+<div id="modal-confirmacion" style="display:none;">
+  <div class="modal-fondo">
+    <div class="modal-contenido">
+      <button id="modal-cerrar-x" class="modal-cerrar-x" aria-label="Cerrar">&times;</button>
+      <p class="modal-mensaje">¡Mensaje enviado<br>correctamente!</p>
+    </div>
+  </div>
+</div>
+
+<style>
+/* Fondo del modal: ocupa toda la pantalla */
+#modal-confirmacion, .modal-fondo {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.25);
+  z-index: 9999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Recuadro del modal */
+.modal-contenido {
+  background: #fff;
+  padding: 0 25px;
+  border-radius: 16px;
+  box-shadow: 0 2px 16px rgba(0,0,0,0.15);
+  text-align: center;
+  min-width: 260px;
+  max-width: 90vw;
+  position: relative;
+  height: 120px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* Centra verticalmente el contenido */
+  align-items: center;     /* Centra horizontalmente el contenido */
+}
+
+/* Botón de cerrar (equis) */
+.modal-cerrar-x {
+  position: absolute;
+  top: 10px;
+  right: 12px;
+  background: none;
+  border: none;
+  font-size: 1.6em;
+  color: rgba(1, 36, 124);
+  cursor: pointer;
+  z-index: 2;
+  transition: color 0.2s;
+}
+
+/* Mensaje */
+.modal-mensaje {
+  font-size: 1.2em;
+  color: rgba(1, 36, 124);
+  font-family: 'inter', sans-serif;
+  font-weight: 600;
+  margin: 0; /* Elimina márgenes para centrar mejor */
+}
+
+/* Responsive para móvil */
+@media (max-width: 600px) {
+  .modal-contenido {
+    padding: 0 8px;
+    min-width: 160px;
+    max-width: 95vw;
+    height: 80px;
+  }
+  .modal-mensaje {
+    font-size: 1em;
+  }
+  .modal-cerrar-x {
+    top: 6px;
+    right: 8px;
+    font-size: 1.4em;
+  }
+}
+</style>
+
+<script>
+window.addEventListener('DOMContentLoaded', function() {
+    // Mostrar modal si viene de formsubmit
+    if (window.location.search.includes('enviado=1')) {
+        document.getElementById('modal-confirmacion').style.display = 'flex';
+    }
+
+    // Cerrar al hacer click en la equis
+    document.getElementById('modal-cerrar-x').addEventListener('click', function(e) {
+        document.getElementById('modal-confirmacion').style.display = 'none';
+        limpiarUrl();
+        e.stopPropagation();
+    });
+
+    // Cerrar al hacer click en el fondo transparente
+    document.querySelector('.modal-fondo').addEventListener('click', function(e) {
+        if (e.target === this) {
+            document.getElementById('modal-confirmacion').style.display = 'none';
+            limpiarUrl();
+        }
+    });
+
+    // Limpia el parámetro de la URL al cerrar el modal
+    function limpiarUrl() {
+        if (window.history.replaceState) {
+            const url = window.location.origin + window.location.pathname;
+            window.history.replaceState({}, document.title, url);
+        }
+    }
+});
+</script>
+  <body>
+    
+  
+<header>
+            <a href="index.html" class="logo_link"> 
+                <h1 class="logo"><img src="Recurso 2.svg" alt="" class="tamaño-logo"></h1>
+            </a>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const logoImage = document.querySelector('.logo img'); // Selecciona la etiqueta img dentro de la clase logo
+  const initialImageSrc = "Recurso 2.svg"; // Ruta de la imagen inicial
+  const scrolledImageSrc = "Recurso 1.svg"; // Ruta de la imagen que se mostrará al hacer scroll
+  const scrollThreshold = 445; // Define la cantidad de píxeles para el cambio de imagen
+
+  window.addEventListener('scroll', function() {
+    if (window.scrollY >= scrollThreshold) {
+      logoImage.src = scrolledImageSrc; // Cambia la fuente de la imagen
+    } else {
+      logoImage.src = initialImageSrc; // Restaura la fuente de la imagen inicial
+    }
+  });
+});
+</script>
+
+
+<script>
+    // Define breakpoints and their corresponding zoom levels in a structured array
+    // Sorted from largest screen width to smallest for correct matching
+    const zoomBreakpoints = [
+        // --- EXTREMELY LARGE & FUTURE-PROOF DISPLAYS ---
+        { width: 7680, zoom: 3.0 }, // 8K displays (7680px wide) and above
+        { width: 5120, zoom: 2.5 }, // 5K displays (5120px wide) and very large ultra-wides
+        { width: 4096, zoom: 2.0 }, // DCI 4K (common for professional displays/cinema)
+        { width: 3840, zoom: 1.8 }, // Standard 4K UHD (3840px wide)
+        { width: 3440, zoom: 1.6 }, // Common ultra-wide (3440x1440)
+        { width: 3000, zoom: 1.4 }, // In-between large desktop sizes
+        { width: 2800, zoom: 1.3 }, // Slightly smaller ultra-wides / large dual-monitor setups
+
+        // --- LARGE DESKTOP & GAMING MONITORS ---
+        { width: 2560, zoom: 1.2 }, // QHD (2560x1440) / WUXGA (2560x1600) / smaller ultra-wides
+        { width: 2048, zoom: 1.1 }, // 2K displays (2048px wide)
+        { width: 1920, zoom: 1.0 }, // Full HD (1920x1080) - often considered 100% baseline
+
+        // --- MEDIUM DESKTOP & LARGER LAPTOPS ---
+        { width: 1680, zoom: 0.95 }, // Common older desktop / larger laptop resolutions
+        { width: 1600, zoom: 0.9 },  // Standard smaller desktop / larger laptop
+        { width: 1440, zoom: 0.85 }, // MacBook Pro Retina (scaled resolutions) / higher-res laptops
+        { width: 1366, zoom: 0.8 },  // Very common standard laptop resolution
+        { width: 1280, zoom: 0.75 }, // Older laptops / small desktop monitors
+    ];
+
+    // Define the initial zoom level based on screen width
+    function getInitialZoomLevel() {
+        const screenWidth = window.innerWidth;
+
+        // Loop through the breakpoints to find the matching zoom level
+        // Starts from largest width and returns the first match
+        for (const breakpoint of zoomBreakpoints) {
+            if (screenWidth >= breakpoint.width) {
+                return breakpoint.zoom;
+            }
+        }
+        // Fallback, though the last breakpoint (width: 0) ensures this is always caught
+        return 1.0;
+    }
+
+    // Function to apply the zoom and ensure it's used by zoom prevention
+function applyInitialZoom() {
+    // Solo aplica zoom si NO es móvil
+    if (window.innerWidth > 900) {
+        const initialZoom = getInitialZoomLevel();
+        document.body.style.zoom = initialZoom;
+        document.body.dataset.initialZoom = initialZoom;
+    } else {
+        document.body.style.zoom = 1;
+        document.body.dataset.initialZoom = 1;
+    }
+}
+
+    // Event listeners for wheel and keydown
+    document.addEventListener('wheel', function(event) {
+        if (event.ctrlKey) {
+            event.preventDefault();
+            let currentZoom = parseFloat(document.body.style.zoom || 1);
+            let zoomFactor = 0.05;
+
+            if (event.deltaY < 0) {
+                // Zoom in
+                document.body.style.zoom = currentZoom + zoomFactor;
+            } else {
+                // Zoom out
+                const initialZoomLevel = parseFloat(document.body.dataset.initialZoom || 1); // Get the dynamic initial zoom
+                if (currentZoom > initialZoomLevel) {
+                    document.body.style.zoom = Math.max(initialZoomLevel, currentZoom - zoomFactor);
+                } else {
+                    document.body.style.zoom = initialZoomLevel;
+                }
+            }
+        }
+    }, { passive: false });
+
+    document.addEventListener('keydown', function(event) {
+        if (event.ctrlKey) {
+            event.preventDefault();
+            let currentZoom = parseFloat(document.body.style.zoom || 1);
+            let zoomFactor = 0.05;
+
+            if (event.key === '+' || event.key === '=') {
+                document.body.style.zoom = currentZoom + zoomFactor;
+            } else if (event.key === '-' || event.key === '_') {
+                const initialZoomLevel = parseFloat(document.body.dataset.initialZoom || 1); // Get the dynamic initial zoom
+                if (currentZoom > initialZoomLevel) {
+                    document.body.style.zoom = Math.max(initialZoomLevel, currentZoom - zoomFactor);
+                } else {
+                    document.body.style.zoom = initialZoomLevel;
+                }
+            }
+        }
+    });
+
+    // Apply the initial zoom when the DOM is fully loaded
+    document.addEventListener('DOMContentLoaded', applyInitialZoom);
+
+    // Re-apply initial zoom if the window is resized (e.g., user rotates phone, or resizes browser)
+    window.addEventListener('resize', applyInitialZoom);
+</script>
+
+        
+
+
+    <div class="hamburguesa">
+        <div class="contenedor_menu">
+            <div class="menu_linea" onclick="toggleMenu()">
+                <div class="opcion"></div>
+                <div class="opcion"></div>
+                <div class="opcion"></div>
+            </div>
+        </div>
+        <div id="efecto_menu" class="efecto_menu">
+            <!-- Botones del formulario -->
+            <div class="menu-buttons">
+                <a href="#inicio" onclick="toggleMenu()">Inicio</a>
+                <a href="#informacion" onclick="toggleMenu()">Nosotros</a>
+                <a href="#productos" onclick="toggleMenu()">Productos</a>
+                <a href="#beneficios" onclick="toggleMenu()">Beneficios</a>
+                <a href="#contacto-formulario" onclick="toggleMenu()">Contacto</a>
+            </div>
+        </div>
+        <script>
+            function toggleMenu() {
+                const efectoMenu = document.getElementById('efecto_menu');
+                efectoMenu.classList.toggle('activo'); // Alterna la clase 'activo' para mostrar/ocultar el menú
+            }
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+
+        document.querySelector(this.getAttribute('href')).scrollIntoView({
+            behavior: 'smooth'
+        });
+    });
+});
+        </script>
+    </div>
+
+
+    <style>
+
+.menu-buttons a:not(:last-child) {
+  border-bottom: 1px solid #c2c2c2;
+}
+        
+    .contenedor_menu {
+        position: fixed; /* Posicionamiento fijo para que no se mueva al hacer scroll */
+        top: 20px; /* Espacio desde la parte superior */
+        right: 30px; /* Espacio desde la derecha */
+        z-index: 1100; /* Asegura que esté por encima de otros elementos */
+    }
+
+    .menu_linea {
+        display: flex;
+        flex-direction: column;
+        gap: 4px; /* Reduce el espacio entre las líneas */
+        cursor: pointer;
+        margin-top: 18px;
+        margin-right: 10px;
+    }
+
+    .menu_linea:hover {
+        transform: scale(1.1); /* Aumenta el tamaño al pasar el mouse */
+    }
+
+    .opcion {
+        width: 23px;       /* Ancho de cada línea */
+        height: 2.5px;      /* Altura de cada línea */
+        background-color: #1b45ff; /* Color de las líneas: blanco */
+        transition: transform 0.3s ease; /* Transición suave para la animación de la "X" */
+    }
+
+    .efecto_menu {
+        /* Estilos base para el menú oculto */
+        position: fixed;  /* Posicionamiento fijo */
+        top: 0;
+        right: 0;
+        width: 155px;    /* Ancho del menú */
+        height: 100%;   /* Altura del menú: 100% de la pantalla */
+        background-color: rgb(255, 255, 255); /* Fondo oscuro semitransparente */
+        padding: 20px;    /* Espacio interno */
+        z-index: 1000;   /* Alto valor de z-index para estar al frente */
+        overflow-y: auto;  /* Permite el desplazamiento vertical si el contenido excede la altura */
+        transform: translateX(100%); /* Lo oculta moviéndolo a la derecha */
+        transition: transform 0.1s ease-in-out; /* Transición suave */
+    }
+
+    .efecto_menu.activo {
+        /* Estilos para mostrar el menú */
+        display: block;
+        transform: translateX(0); /* Lo muestra moviéndolo a su posición original */
+    }
+
+    .menu-buttons {
+        display: flex;          /* Utiliza Flexbox para el diseño */
+        flex-direction: column;  /* Coloca los elementos en columna */
+        margin-top: 100px;    /* Espacio desde la parte superior del menú */
+    }
+
+    .menu-buttons a {
+        display: block;           /* Convierte los enlaces en elementos de bloque */
+        width: 100%;             /* Ocupan todo el ancho del contenedor */
+        padding: 15px;           /* Espacio interno */
+        font-size: 18px;         /* Tamaño de la fuente */
+        color: #3b3b3b;             /* Color del texto: blanco */
+        border: none;            /* Sin borde */
+        cursor: pointer;         /* Indica que son interactivos */
+        text-align: center;       /* Alineación del texto: centrado */
+        text-decoration: none;    /* Sin subrayado */
+        transition: background-color 0.3s ease, color 0.3s ease; /* Transiciones */
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1); /* Borde inferior */
+        font-family: 'inter', sans-serif; /* Fuente Inter */
+    }
+
+    .menu-buttons a:hover {
+        color: rgba(1, 36, 124); /* Color del texto al pasar el mouse: azul */
+        font-weight: 600 !important;
+    }
+
+    .menu_linea.activo .opcion:nth-child(1) {
+        transform: rotate(45deg) translate(5px, 6px); /* Convierte la 1ª línea en parte de la "X" */
+    }
+
+    .menu_linea.activo .opcion:nth-child(2) {
+        opacity: 0;             /* Oculta la 2ª línea */
+    }
+
+    .menu_linea.activo .opcion:nth-child(3) {
+        transform: rotate(-45deg) translate(5px, -6px); /* Convierte la 3ª línea en parte de la "X" */
+    }
+        /* Oculta el botón hamburguesa en pantallas grandes */
+@media (min-width: 769px) {
+    .contenedor_menu {
+        display: none; /* Oculta el botón hamburguesa */
+    }
+}
+    </style>
+
+<form action="post" class="formulario" style="margin-right: 160px;">
+  <button formaction="#inicio">INICIO</button>
+  <button formaction="#informacion">NOSOTROS</button>
+  <button formaction="#productos">PRODUCTOS</button>
+  <button formaction="#beneficios">BENEFICIOS</button>
+  <button formaction="#contacto-formulario">CONTACTANOS</button>
+
+<a href="https://www.facebook.com/share/18xE3tDNQ9/" target="_blank" class="icon-wrapper" style="margin-left: 15.8vw;">
+  <img class="icon normal facebook" src="facebook.svg"style="margin-top: 23px; ; " alt="facebook"/>
+  <img class="icon hover facebook" src="facebook-hover.svg"style="margin-top: 23px; " alt="facebook hover" />
+</a>
+
+<a href="https://www.instagram.com/solarsurperu/" target="_blank" class="icon-wrapper">
+  <img class="icon normal instagram" style="margin-top: 23px;" src="instagram.svg" alt="instagram" />
+  <img class="icon hover instagram" style="margin-top: 23px;" src="instagram-hover.svg" alt="instagram hover" />
+</a>
+
+<a href="https://www.tiktok.com/@solarsur" target="_blank" class="icon-wrapper">
+  <img class="icon normal tiktok" style="margin-top: 23px;" src="logo-tiktok.svg" alt="tiktok" />
+  <img class="icon hover tiktok" style="margin-top: 23px;" src="tiktok-hover.svg" alt="tiktok hover" />
+</a>
+
+
+</form>
+
+
+
+        <style>
+        .item {
+            margin-left: 10px; /* Agrega un margen izquierdo de 10 píxeles */
+        }
+        .formulario{
+          margin-bottom: 9px;
+          justify-content: center;  
+        }
+
+        .icon-wrapper {
+  position: relative;
+  display: inline-block;
+  width: 30px;
+  height: 30px;
+  margin-right: 10px; /* separa los íconos */
+}
+
+.icon-wrapper .icon {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 30px;
+  height: 30px;
+  transition: opacity 0.25s ease-in-out;
+}
+
+.icon-wrapper .hover {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.icon-wrapper:hover .hover {
+  opacity: 1;
+}
+
+.icon-wrapper:hover .normal {
+  opacity: 0;
+}
+
+        </style>
+
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const threshold = 445;
+  const icons = {
+    facebook: {
+      normal: ['facebook.svg', 'facebook 2.svg'],
+      hover: ['facebook-hover.svg', 'facebook 2-hover.svg']
+    },
+    instagram: {
+      normal: ['instagram.svg', 'instagram 2.svg'],
+      hover: ['instagram-hover.svg', 'instagram 2-hover.svg']
+    },
+    tiktok: {
+      normal: ['logo-tiktok.svg', 'tik-tok.svg'],
+      hover: ['tiktok-hover.svg', 'tik-tok-hover.svg']
+    }
+  };
+
+  function actualizarImagenes(segundoSet) {
+    Object.keys(icons).forEach(key => {
+      const normal = document.querySelector(`.icon.normal.${key}`);
+      const hover = document.querySelector(`.icon.hover.${key}`);
+      normal.src = icons[key].normal[segundoSet ? 1 : 0];
+      hover.src = icons[key].hover[segundoSet ? 1 : 0];
+    });
+  }
+
+  window.addEventListener('scroll', () => {
+    actualizarImagenes(window.scrollY >= threshold);
+  });
+});
+</script>
+
+
+
+
+
+
+
+</header>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script>
+    window.addEventListener('scroll', function () {
+        const header = document.querySelector('header');
+        if (window.scrollY > 50) { // Cambia el valor según cuándo quieras que se active
+            header.classList.add('scrolled');
+        } else {
+            header.classList.remove('scrolled');
+        }
+    });
+</script>
+
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const header = document.querySelector('header'); // Reemplaza 'header' con el selector correcto de tu encabezado
+  const scrollThreshold = 445; // Define la cantidad de píxeles para el cambio de color
+
+  window.addEventListener('scroll', function() {
+    if (window.scrollY >= scrollThreshold) {
+      header.classList.add('scrolled');
+    } else {
+      header.classList.remove('scrolled');
+    }
+  });
+});
+</script>
+
+
+
+
+
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const formElement = document.querySelector('.formulario');
+  const scrollThreshold = 445;
+  const scrolledTextColor = '#fff'; // Color blanco
+
+  window.addEventListener('scroll', function() {
+    if (window.scrollY >= scrollThreshold) {
+      // Cambia el color de los labels dentro del formulario
+      const labels = formElement.querySelectorAll('label');
+      labels.forEach(label => {
+        label.style.color = scrolledTextColor;
+      });
+
+      // Cambia el color del texto dentro de los inputs (puedes necesitar ajustar el selector)
+      const inputs = formElement.querySelectorAll('input[type="text"], input[type="email"], textarea');
+      inputs.forEach(input => {
+        input.style.color = scrolledTextColor;
+      });
+
+      // Cambia el color del texto del botón (si aplica)
+      const buttons = formElement.querySelectorAll('button');
+      buttons.forEach(button => {
+        button.style.color = scrolledTextColor;
+      });
+    } else {
+      // Restaura el color original de los elementos (esto puede ser más complejo si no se conoce el color inicial)
+      // Una forma más robusta sería agregar/remover una clase en lugar de manipular estilos directamente.
+      const labels = formElement.querySelectorAll('label');
+      labels.forEach(label => {
+        label.style.color = ''; // Restablece al color definido en CSS
+      });
+
+      const inputs = formElement.querySelectorAll('input[type="text"], input[type="email"], textarea');
+      inputs.forEach(input => {
+        input.style.color = '';
+      });
+
+      const buttons = formElement.querySelectorAll('button');
+      buttons.forEach(button => {
+        button.style.color = '';
+      });
+    }
+  });
+});
+</script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const formElement = document.querySelector('.formulario');
+  const scrollThreshold = 445;
+
+  window.addEventListener('scroll', function() {
+    if (window.scrollY >= scrollThreshold) {
+      formElement.classList.add('formulario-texto-blanco');
+    } else {
+      formElement.classList.remove('formulario-texto-blanco');
+    }
+  });
+});
+</script>
+
+<style>
+.formulario label,
+.formulario input,
+.formulario textarea,
+.formulario button {
+  /* Tus estilos de color de texto iniciales */
+  color: #333; /* Ejemplo de color de texto inicial */
+}
+
+.formulario.formulario-texto-blanco label,
+.formulario.formulario-texto-blanco input,
+.formulario.formulario-texto-blanco textarea,
+.formulario.formulario-texto-blanco button {
+  color: #fff; /* Color blanco al hacer scroll */
+}
+
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<main>
+
+<div class="imagen_body" style="margin-top: 96px; position: relative; overflow: hidden;">
+  <div class="carrusel-imagen-body">
+        <div class="slide-imagen-body activa">
+      <img class="segundo-fondo" src="banner web.png" alt="" draggable="false">
+      <img class="segundo-fondo-vertical" src="Fondo Principal vertical.png" alt="" style="width: 100%; height: 100%; position: absolute; top: 0; left: 0; z-index: -1;" draggable="false">
+
+      <div class="contenedor-flex-cotizacion-horario">
+        <div class="recuadro-cotizacion">
+          <div class="recuadro-cabecera">
+            <span class="recuadro-titulo">INVIERTA EN</span>
+            <span class="recuadro-icono">
+              <!-- Aquí tu icono circular naranja -->
+              <img src="icono energy.svg" alt="icono" />
+            </span>
+          </div>
+          <h2 class="recuadro-subtitulo">
+            <span class="naranja">ENERGÍA SOLAR</span><br>
+            <span class="naranja">REDUCIRA SU</span><br>
+            <span class="naranja">CUENTA DE LUZ</span>
+          </h2>
+          <p class="recuadro-descripcion">
+            Paneles y termas ideales para su domicilio, hotel o campo de agricultura.
+          </p>
+            <a href="https://wa.me/51908823893" target="_blank" class="boton-whatsapp" style="margin-top: 0 !important; z-index: 1;">
+              COTICE AHORA<img src="whatsapp.png" alt="Icono de WhatsApp">
+            </a>
+          <div class="recuadro-imagenes-boton">
+            <div class="recuadro-imagen-izq">
+              <!-- Aquí tu imagen de la izquierda -->
+              <img src="imagen izquierda.png" alt="izquierda" />
+            </div>
+            <div class="recuadro-imagen-der">
+              <!-- Aquí tu imagen de la derecha -->
+              <img src="imagen derecha.png" alt="derecha" />
+            </div>
+          </div>
+        </div>
+        <div class="horarios-container">
+          <div class="horario-pill">
+              <span class="horario-day">LUNES A VIERNES</span>
+              <span class="horario-time">8:30H a 18:30H</span>
+          </div>
+
+          <div class="horario-pill">
+              <span class="horario-day">SABADOS</span>
+              <span class="horario-time">8:30H a 13:30H</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+      <div class="slide-imagen-body">
+          <div class="contenedor-principal">
+            <div class="texto_central" style="width: 590px;" >
+                <img src="icono energy.svg" alt="" style="width: 40px; height: 40px;">
+                <h1>A ti, que eres raíz, flor  y fruto: gracias por hacer florecer mi vida. </h1>
+                <p>La energía del futuro, hoy</p>
+                <a href="https://wa.me/51908823893" target="_blank" class="boton-whatsapp">
+                  <img src="whatsapp.png" alt="Icono de WhatsApp">Contáctanos
+                </a>
+            </div>
+                <img class="segundo-fondo" src="Fondo principal.png" alt="" style="width: 100%; height: 100%; position: absolute; top: 0; left: 0; z-index: -1;" draggable="false">
+                <img class="segundo-fondo-vertical" src="fondo principal celular.jpeg" alt="" style="width: 100%; height: 100%; position: absolute; top: 0; left: 0; z-index: -1;" draggable="false">
+          </div>
+      </div>
+  </div>
+</div>
+
+
+<style>
+  @media (max-width: 900px) {
+  .recuadro-cotizacion,
+  .horarios-container {
+    transform: translateX(40%) !important;
+    opacity: 1 !important;
+    transition: none !important;
+  }
+}
+  .recuadro-cotizacion,
+.horarios-container {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.3s ease, transform 0.8s cubic-bezier(.4,2,.6,1);
+}
+
+.recuadro-cotizacion.visible,
+.horarios-container.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+.horarios-container {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+  align-items: flex-start;
+  margin: 0;
+  padding-left: 0;
+  padding-right: 0;
+  margin-top: 150px !important;
+  transform: translateX(-40%) !important; /* Mueve el contenedor hacia la izquierda */
+}
+.horario-pill {
+    background-color: hsla(40, 100%, 65%, 0); /* Fondo de la "píldora" (naranja-amarillento) */
+    border: 3px solid #ECAB21; /* Borde dorado/amarillo */
+    border-radius: 50px; /* Para darle la forma de píldora */
+    padding: 5px 4px; /* Espacio interno de la píldora */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    min-width: 150px; /* Ancho mínimo para que se vea bien */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4)  !important; /* Sombra sutil para darle profundidad */
+}
+.horario-day {
+    color: white; /* Color del texto de los días */
+    font-size: 8pt; /* Tamaño de la fuente para los días */
+    font-weight: 600; /* Negrita */
+    letter-spacing: 0.05em; /* Espaciado de letras */
+    margin-bottom: 2px; /* Espacio entre el día y la hora */
+}
+.horario-time {
+    color: #F8A005; /* Color del texto de la hora (naranja más oscuro) */
+    font-size: 12pt; /* Tamaño grande para la hora */
+    font-weight: 600; /* Más negrita */
+    line-height: 1; /* Elimina espacio extra de línea */
+}
+.contenedor-flex-cotizacion-horario {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 0px;
+  width: 100%;
+  max-width: 700px;      /* Limita el ancho total del bloque */
+  margin: 0 auto;        /* Centra el bloque en el slide */
+  position: relative;
+  box-sizing: border-box;
+  padding-right: 0;      /* Elimina padding derecho si lo hay */
+  transform: translateX(-40%) !important; /* Mueve el contenedor hacia la izquierda */
+}
+.recuadro-cotizacion .boton-whatsapp {
+  background: linear-gradient(#FF6805 #FE8025, #FFA10A);
+  font-family: 'Poppins', 'Inter', Arial, sans-serif !important;
+  font-weight: 600 !important;
+}
+.recuadro-cotizacion .boton-whatsapp{
+  width: 95%;
+  justify-content: center;
+  gap: 15px !important;
+}
+
+
+.recuadro-cotizacion {
+  max-width: 400px;
+  width: 100%;
+  margin: 0;
+  position: relative;
+  z-index: 2;
+}
+
+.horarios-container {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+  align-items: flex-start;
+  margin: 0;
+  z-index: 2;
+}
+.horarios-container {
+  margin-left: 0;      /* Elimina margen izquierdo si lo hay */
+  margin-right: 0;     /* Elimina margen derecho si lo hay */
+  padding-left: 12px;  /* Agrega un pequeño espacio interno a la izquierda */
+}
+@media (max-width: 900px) {
+  .contenedor-flex-cotizacion-horario {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
+    max-width: 75vw;
+    width: 75vw;
+
+  }
+  .recuadro-cotizacion {
+    max-width: 75vw !important;
+    width: 75vw !important;
+    border-radius: 18px;
+    box-sizing: border-box;
+    position: relative;
+    z-index: 2;
+    margin-left: 30px !important;
+    margin-right: 30px !important;
+    height: 90vw !important;
+    margin-bottom: 40px !important;
+    margin-top: 20px !important;
+    transform: translateX(40%);
+  }
+  .recuadro-imagenes-boton {
+    position: relative;
+    width: 100%;
+    height: 80px;
+    margin-top: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    z-index: 2;
+  }
+  .recuadro-imagen-izq,
+  .recuadro-imagen-der {
+    position: absolute;
+    bottom: -35px;
+    z-index: 3;
+  }
+  .recuadro-imagen-izq {
+    left: -15px !important;
+    top: -30px !important; /* Ajusta la posición vertical */
+
+  }
+  .recuadro-imagen-der {
+    right: -15px !important;
+    top: 10px !important; /* Ajusta la posición vertical */
+
+  }
+  .recuadro-imagen-izq img,
+  .recuadro-imagen-der img {
+    width: 70px;
+    height: auto;
+  }
+    .recuadro-cotizacion .boton-whatsapp {
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    width: max-content !important;
+    float: none !important;
+    padding: 10px 12px !important;
+    width: 80% !important;
+    justify-content: center !important;
+    font-size: 11pt !important;
+    margin-top:10px !important;
+    font-weight: 500 !important;
+
+  }
+  .recuadro-cotizacion .boton-whatsapp {
+    gap: 10px !important; /* Reduce el espacio entre texto e icono */
+    padding: 10px 12px !important; /* Mantén el padding compacto */
+  }
+
+ 
+  .horarios-container {
+    display: none !important;
+  }
+  .recuadro-titulo {
+  font-size: 20pt !important;
+}
+.recuadro-subtitulo {
+  font-size: 22pt !important;
+    margin: 0 0 5px 0 !important;
+}
+.recuadro-descripcion {
+  font-size: 11pt !important;
+    line-height: 1.1 !important;
+
+}
+}
+</style>
+
+
+
+
+<style>
+.recuadro-cotizacion {
+  background: #fff;
+  border-radius: 24px;
+  padding: 20px 28px !important;
+  font-family: 'Poppins', 'Inter', sans-serif;
+  text-align: left;
+  margin: 40px auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  max-width: 450px;
+  max-height: 367px !important;
+  height: auto;      /* <-- Asegura que no tenga altura fija */
+  box-sizing: border-box;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1) ;
+ 
+}
+
+
+.recuadro-cabecera {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1px;
+}
+
+.recuadro-cotizacion {
+  background: #fff;
+  border-radius: 24px;
+  padding: 18px 12px 32px 12px; /* Más padding abajo para que no tape el contenido */
+  font-family: 'Poppins', 'Inter', sans-serif;
+  text-align: left;
+  margin: 40px auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  width: 100%;
+  max-width: 390px;
+  box-sizing: border-box;
+  position: relative; /* Necesario para posicionar las imágenes absolutas */
+  z-index: 2;
+}
+
+.recuadro-titulo {
+  color: #053DA2;
+  font-weight: 700;
+  font-size: 18pt;
+  letter-spacing: 1px;
+}
+.recuadro-icono img {
+  width: 36px;
+  height: 36px;
+}
+.recuadro-subtitulo {
+  font-size: 30pt;
+  font-weight: 700;
+  margin: 0 0 10px 0;
+  line-height: 1.1;
+}
+.naranja {
+  color: #FF6603;
+  font-style: italic;
+}
+
+.recuadro-descripcion {
+  color: #2953AA;
+  font-size: 15pt;
+  margin-bottom: 18px;
+  margin-top: 0;
+  font-weight: 500;
+  line-height: 1.2; /* Reduce el espacio entre líneas */
+
+}
+.recuadro-imagenes-boton {
+  position: relative;
+  width: 100%;
+  height: auto; /* Ajusta según el alto de tus imágenes */
+  margin-top: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  z-index: 2;
+}
+
+.recuadro-imagen-izq,
+.recuadro-imagen-der {
+  position: absolute;
+  bottom: -35px; /* Sube la imagen para que se mezcle con el recuadro */
+  z-index: 90000000;
+}
+
+.recuadro-imagen-izq {
+  left: -75px; /* Ajusta para que sobresalga a la izquierda */
+}
+
+.recuadro-imagen-der {
+  right: -80px; /* Ajusta para que sobresalga a la derecha */
+  top: -50px;
+
+}
+
+.recuadro-imagen-izq img,
+.recuadro-imagen-der img {
+  width: 120px;
+  height: auto;
+  display: block;
+}
+
+.recuadro-boton, .boton-whatsapp {
+  position: relative;
+  z-index: 4;
+  margin: 0 0 0 0;
+}
+@media (max-width: 900px) {
+  .recuadro-cotizacion {
+    max-width: 98vw;
+    padding: 18px 6vw;
+  }
+  .recuadro-imagenes-boton {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+  }
+  .recuadro-boton {
+    justify-content: center;
+    margin: 0 auto;
+  }
+}
+
+
+
+
+
+</style>
+
+
+
+
+
+
+
+<style>
+@media screen and (max-width: 900px) {
+
+/*que la imagen ocupe todo en ancho de la pantalla */
+.contenedor-imagen{
+  width: 100%;
+  }
+  
+} 
+</style>
+
+
+<style>
+  .imagen_body {
+    background: linear-gradient(to right, #001e83, #003789, #0075C6);
+    top: 0; /* Alinea la imagen a la parte superior */
+    left: 0; /* Alinea la imagen a la esquina superior izquierda */
+    bottom: 0;
+    width: 100%; /* Ocupa toda la pantalla */
+    height: 655px; /* Ocupa toda la altura de la ventana */
+    background-size: cover; /* Cubre toda la pantalla */
+    background-position: center; /* Centra la imagen */
+    z-index: auto; /* Envía la imagen detrás del contenido */
+    overflow: hidden; /* Oculta cualquier desbordamiento */
+    object-fit: cover;
+}
+.carrusel-imagen-body {
+  display: flex;
+  width: 200%;
+  height: 100%;
+  transition: transform 1s;
+    cursor: grab;
+
+}
+.slide-imagen-body {
+  width: 50%;
+  height: 100%;
+  flex-shrink: 0;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+}
+.segundo-fondo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  position: absolute;
+  left: 0;
+  top: 0;
+  display: block;
+}
+
+
+.slide-imagen-body.activa {
+  opacity: 1;
+  pointer-events: auto;
+  z-index: 20000 !important; /* Asegura que el slide activo esté por encima de los demás */
+    cursor: grab;
+
+}
+
+.imagen_body .contenedor-principal {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  width: 100%;
+  margin: 0 auto;
+}
+</style>
+
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const carrusel = document.querySelector('.carrusel-imagen-body');
+  const slides = document.querySelectorAll('.carrusel-imagen-body .slide-imagen-body');
+  let current = 0;
+  const total = slides.length;
+
+  // --- Auto slide ---
+  let autoInterval = setInterval(nextSlide, 4000);
+
+  function showSlide(idx) {
+    const percent = -(idx * (100 / total));
+    carrusel.style.transform = `translateX(${percent}%)`;
+    current = idx;
+  }
+
+  function nextSlide() {
+    let next = (current + 1) % total;
+    showSlide(next);
+  }
+
+  function prevSlide() {
+    let prev = (current - 1 + total) % total;
+    showSlide(prev);
+  }
+
+  // --- Drag/Swipe functionality ---
+  let startX = 0;
+  let isDragging = false;
+  let moved = false;
+
+  carrusel.addEventListener('mousedown', (e) => {
+    clearInterval(autoInterval);
+    isDragging = true;
+    startX = e.pageX;
+    moved = false;
+  });
+
+  carrusel.addEventListener('mousemove', (e) => {
+    if (!isDragging) return;
+    moved = true;
+  });
+
+  carrusel.addEventListener('mouseup', (e) => {
+    if (!isDragging) return;
+    isDragging = false;
+    const diff = e.pageX - startX;
+    if (diff > 50) {
+      prevSlide();
+    } else if (diff < -50) {
+      nextSlide();
+    }
+    autoInterval = setInterval(nextSlide, 4000);
+  });
+
+  // Touch events para móviles
+  carrusel.addEventListener('touchstart', (e) => {
+    clearInterval(autoInterval);
+    isDragging = true;
+    startX = e.touches[0].clientX;
+    moved = false;
+  });
+
+  carrusel.addEventListener('touchmove', (e) => {
+    if (!isDragging) return;
+    moved = true;
+  });
+
+  carrusel.addEventListener('touchend', (e) => {
+    if (!isDragging) return;
+    isDragging = false;
+    const endX = e.changedTouches[0].clientX;
+    const diff = endX - startX;
+    if (diff > 50) {
+      prevSlide();
+    } else if (diff < -50) {
+      nextSlide();
+    }
+    autoInterval = setInterval(nextSlide, 4000);
+  });
+
+  showSlide(0);
+});
+</script>
+      
+      
+<style>
+
+.contenedor-principal {
+  display: grid;
+  grid-template-columns: auto auto;
+  justify-items: center;
+  align-items: start; /* Alinea los elementos al inicio vertical de su celda */
+  column-gap: 40px;
+  min-height: 100vh;
+  justify-content: center;
+}
+
+
+
+
+
+.texto_central .contenedor-imagen img{
+    left: 0; /* Alinea al borde izquierdo */
+    width: 120%; /* Ancho completo */
+    height: 180%; /* Alto completo */
+    z-index: 1; /* Envía la imagen al fondo */
+}
+
+.boton-whatsapp {
+    align-items: center; /* Centra verticalmente */
+    background: linear-gradient(to right, #ff7101, #FF7D18, #FF9B34); /* Degradado de izquierda a derecha */
+    color: white; /* Color del texto */
+    padding: 8px 28px; /* Espaciado interno */
+    border-radius: 22px; /* Bordes redondeados */
+    text-decoration: none; /* Sin subrayado */
+    font-family: 'Inter', sans-serif;
+    display: inline-flex; /* Flexbox para alinear el texto y el ícono */
+    gap: 10px;
+    margin-top: 10px;
+    font-size: 14pt;
+    z-index: 1000; /* Asegura que el botón esté por encima de otros elementos */
+}
+
+.boton-whatsapp img {
+  width: 32px;
+  height: 32px;
+}
+
+.boton-whatsapp2 img {
+  width: 32px;
+  height: 32px;
+}
+.texto_central {
+    position: relative;
+    z-index: 1; /* Asegura que el texto esté por encima de la imagen */
+    color: white; /* Color del texto */
+    font-family: "Poppins", sans-serif;
+    margin-top: 20px;
+    justify-content: center;
+    text-align: center; /* Centra el texto */
+}
+
+.texto_central h1{
+font-size: 40px;
+font-style: italic;
+}
+.texto_central p{
+font-size: 20px;
+}
+
+.boton-whatsapp:hover {
+    transform: scale(1.05); /* Ligeramente más grande al pasar el ratón */
+    /*añadirle tiempo de animacion*/
+    transition: transform 0.3s ease; /* Transición suave */
+}
+
+@media screen and (max-width: 900px) {
+  .segundo-fondo {
+    display: none !important;
+  }
+  .segundo-fondo-vertical {
+    display: block !important;
+    width: 100% !important;
+    height: auto !important;
+    object-fit: cover;
+  }
+  .imagen_body{
+    height:40vh !important;
+  }
+}
+
+/* Oculta la imagen vertical en escritorio */
+.segundo-fondo-vertical {
+  display: none;
+}
+
+
+
+
+
+</style>
+
+
+
+
+
+
+
+
+
+<style>
+  .caracteristica {
+  opacity: 0;
+  transform: translateY(40px) scale(0.98);
+  transition: opacity 0.4s, transform 0.7s cubic-bezier(.4,2,.6,1);
+}
+.caracteristica.visible {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  // Solo ejecutar en escritorio (mayor a 900px)
+  if (window.innerWidth > 900) {
+    // Efecto cotización y horarios
+    const cotizacion = document.querySelector('.recuadro-cotizacion');
+    const horarios = document.querySelector('.horarios-container');
+    if (cotizacion && horarios) {
+      setTimeout(() => {
+        cotizacion.classList.add('visible');
+        setTimeout(() => {
+          horarios.classList.add('visible');
+        }, 600);
+      }, 300);
+    }
+
+    // Efecto características
+    const caracteristicas = document.querySelectorAll('.caracteristica');
+    let animadas = false;
+    function mostrarCaracteristicasEnOrden() {
+      if (animadas) return;
+      animadas = true;
+      let delay = 0;
+      let base = 350;
+      let aceleracion = 0.7;
+      caracteristicas.forEach((caracteristica, i) => {
+        setTimeout(() => {
+          caracteristica.classList.add('visible');
+        }, delay);
+        delay += base;
+        base = Math.max(80, base * aceleracion);
+      });
+    }
+    function onScroll() {
+      const seccion = document.querySelector('.caracteristicas');
+      if (!seccion) return;
+      const rect = seccion.getBoundingClientRect();
+      if (rect.top < window.innerHeight - 150) {
+        mostrarCaracteristicasEnOrden();
+        window.removeEventListener('scroll', onScroll);
+      }
+    }
+    caracteristicas.forEach(c => c.classList.remove('visible'));
+    window.addEventListener('scroll', onScroll);
+    onScroll();
+  } else {
+    // En móvil: mostrar todo sin animación
+    const cotizacion = document.querySelector('.recuadro-cotizacion');
+    const horarios = document.querySelector('.horarios-container');
+    if (cotizacion) cotizacion.classList.add('visible');
+    if (horarios) horarios.classList.add('visible');
+    document.querySelectorAll('.caracteristica').forEach(c => c.classList.add('visible'));
+  }
+});
+</script>
+
+
+
+
+
+
+<div class="bloque_texto" style="  position: static;
+  margin-top: 0;
+  padding: 0;
+  width: 100%;
+">
+<div class="seccion-con-fondo" style="top: 0;">
+    <div id="caracteristicas" class="caracteristicas">
+
+        <div class="caracteristicas-container">
+            <div class="caracteristica">
+                <img src="Layer 1.svg" alt=""><i class="numero">3</i>
+                <p class="descripcion"></p>
+                <h3>Tres años<br>de garantía</h3>
+            </div>
+            
+            <div class="caracteristica">
+                <img src="Layer 2.svg" alt=""><i class="numero">3</i>
+                <p class="descripcion"></p>
+                <h3>Seguimientos<br>de equipo</h3>
+                
+            </div>
+            <div class="caracteristica">
+                <img src="experiencia.jpg" alt=""><i class="numero">30</i>               
+                <p class="descripcion"></p>
+                <h3>Treinta años <br> de experiencia</h3>
+                
+            </div>
+            <div class="caracteristica">
+                <img src="Layer 3.svg" alt=""><i class="numero">500</i>                
+                <p class="descripcion"></p>
+                <h3>Número de<br>instalaciones</h3>
+                
+            </div>
+        </div>
+
+        <script>
+document.addEventListener('DOMContentLoaded', function() {
+  const counters = document.querySelectorAll('.numero');
+
+  counters.forEach(counter => {
+    const target = parseInt(counter.innerText);
+    counter.innerText = 0; // Inicializar el contador en 0
+    let count = 0;
+
+    // Ajustar la duración en función del valor objetivo
+    const baseDuration = 1500; // Duración base para un número "promedio"
+    const durationFactor = 0.8; // Factor para ajustar la duración (puedes experimentar con este valor)
+    const minDuration = 800; // Duración mínima para evitar animaciones demasiado rápidas
+
+    // Cuanto menor sea el target, menor será la duración (y más lento parecerá)
+    const duration = Math.max(minDuration, baseDuration * (target / 100));
+    const interval = duration / target;
+
+    function updateCounter() {
+      count++;
+      counter.innerText = count;
+      if (count < target) {
+        setTimeout(updateCounter, interval);
+      } else {
+        counter.innerText = target; // Asegurar que el valor final sea exacto
+      }
+    }
+
+    if (target > 0) {
+      setTimeout(updateCounter, 100); // Iniciar la animación con un pequeño retraso
+    }
+  });
+});
+        </script>
+
+        <style>
+.caracteristicas {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;   /* Centra verticalmente */
+    align-items: center;       /* Centra horizontalmente */
+    height: auto;              /* Alto fijo o relativo */
+    padding-top: 0;
+    padding-bottom: 0;
+    margin-top: 0;
+    margin-bottom: 0;
+    background-color: #ffffffaf;
+    box-sizing: border-box;
+}
+.caracteristicas-container {
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+}
+
+
+.informacion {
+  /* Otros estilos */
+  margin-top: 0;
+}
+.numero {
+    font-size: 25pt;
+    margin-left: 15px;
+    vertical-align: super;
+    font-weight: 870;
+
+}
+
+.seccion-con-fondo {
+  background-image: url("fondo-texto.jpg") ; /* Ruta a tu imagen de fondo unificada */
+  background-size: cover; /* Cubre todo el contenedor padre */
+  background-position: center; /* Centra la imagen */
+  background-repeat: no-repeat; /* Evita la repetición */
+}
+
+.caracteristica:hover {
+    transition: transform 0.2s ease-in-out;
+    transform:  scale(1.08); /* Saca el texto hacia arriba */
+}
+
+
+.caracteristica .numero {
+    text-align: center;
+    /*centrar verticalmente*/
+}
+
+.caracteristicas-container {
+    display: flex; /* Alinea los bloques horizontalmente */
+    gap: 30px; /* Reduce el espaciado entre los bloques */
+    justify-content: center; /* Centra los bloques horizontalmente */
+    margin-top: 40px !important;
+    margin-bottom: 40px !important;
+}
+
+.caracteristica {
+    background-color: rgb(255, 255, 255); /* Fondo rojo */
+    color: rgb(48, 48, 48); /* Texto blanco*/
+    border-radius: 18px; /* Bordes redondeados */
+    padding: 20px 10px; /* Reduce el padding interno */
+    text-align: center; /* Centra el contenido */
+    width: 220px; /* Reduce el ancho del bloque */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra más pequeña */
+    font-family: 'Inter', sans-serif;
+}
+
+
+
+.caracteristica h3 {
+    font-size: 16px; /* Reduce el tamaño del título */
+    margin-bottom: 5px; /* Reduce el margen inferior */
+    font-family: 'Inter', sans-serif;
+}
+
+.caracteristica .descripcion {
+    font-size: 12px; /* Reduce el tamaño del texto */
+    font-weight: bold; /* Añade negrita al texto */
+    margin-bottom: 5px;
+    font-family: 'Inter', sans-serif;
+}
+
+    </style>
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>
+/* POR DEFECTO: visibles SIEMPRE */
+.texto-informacion,
+.imagen {
+  opacity: 1;
+  transition: none;
+}
+
+/* SOLO en pantallas grandes: aplicar efecto */
+@media (min-width: 769px) {
+  .texto-informacion,
+  .imagen {
+    opacity: 0;
+    transition: opacity 0.8s ease;
+  }
+
+  .aparecer {
+    opacity: 1;
+  }
+}
+
+
+
+</style>
+
+<script>
+  function esDispositivoMovil() {
+    return /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent) || window.innerWidth < 769;
+  }
+
+  if (!esDispositivoMovil()) {
+    function aparecerAlScroll() {
+      const elementos = document.querySelectorAll('.texto-informacion, .imagen');
+      elementos.forEach(el => {
+        const rect = el.getBoundingClientRect();
+        const altoVentana = window.innerHeight;
+
+        if (rect.top < altoVentana - 100) {
+          el.classList.add('aparecer');
+        }
+      });
+    }
+
+    window.addEventListener('scroll', aparecerAlScroll);
+    window.addEventListener('load', aparecerAlScroll);
+  }
+</script>
+
+
+
+
+
+    <div id="informacion" class="informacion">
+      <div class="texto-informacion">
+    <div class="icono-titulo">
+      <img src="icono energy.svg" alt="">
+      <p class="texto-productos">Nosotros</p>
+    </div>
+        <h2>Sobre Nosotros</h2>
+        <p>Somos una empresa de Tacna especializada en soluciones con energía solar. Contamos con amplia experiencia en tecnologías limpias para el ahorro energético en hogares, negocios y zonas rurales.
+        <br><br>
+        Ofrecemos productos como termas solares, paneles fotovoltaicos, sistemas de bombeo solar y arquitectura bioclimática, ayudando a reducir el consumo eléctrico y proteger el medio ambiente.
+        <br><br>
+        Nuestras termas solares permiten un ahorro de hasta el 80% en el consumo de energía para calentar agua, con alta durabilidad y eficiencia comprobada.</p>
+      </div>
+        <div class="imagen">
+        <img src="mas_informacion.jpg" alt="Información adicional" style="width: 604px; height: 474px; border-radius: 18px;">
+        </div>
+    </div>
+    
+</div>
+<style>
+.informacion {
+    display: flex;
+    align-items: stretch; /* Hace que los hijos tengan la misma altura */
+    gap: 30px;
+    background-color: #ca7b209f;
+    width: 100%;
+    height: auto;
+    padding: 60px 64px;
+    justify-content: center;
+}
+
+.texto-informacion {
+    background-color: #fff;
+    width: 804px;
+    height: auto;
+    padding: 30px;
+    border-radius: 18px;
+    box-sizing: border-box;
+    margin-top: 0 !important;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.imagen {
+    display: flex;
+    align-items: stretch; /* Igual altura que el texto */
+    height: 100%;
+}
+
+.imagen img {
+    display: block;
+    height: 100%;
+    width: auto;
+    object-fit: cover;
+    border-radius: 18px; /* Borde redondeado a la imagen */
+}
+    .texto-informacion p{
+        text-align: left;
+    }
+    .texto-informacion h2{
+        text-align: left;
+    }
+    </style>
+
+
+
+
+
+
+<br id="productos">
+
+
+
+<div class="bloque-complemento">
+  <div class="texto">
+    <h2>Lo que <span  style="color: rgb(1, 1, 112);">realmente</span> <span style="color: rgb(1, 1, 112);">necesitas</span> en invierno</h2>
+    <p>¡Para de pagar tanto en la cuenta de luz! Aprovecha los rayos del sol para obtener agua caliente</p>
+  </div>
+</div>
+
+  <style>
+    .texto {
+      display: flex;
+      gap: 550px;
+      justify-content: center;
+      margin-top: 27px;
+      text-align: left;
+      font-family: 'Poppins', bold;
+      width: 100%;
+    }
+
+    .texto p{
+      font-size: 10pt;
+      right: 0;
+      left: 0;
+      width: 30vw;
+    }
+
+    .texto h2{
+      font-size: 28pt;
+      left: 0;
+      right: 0;
+      width: 35vw;
+    }
+
+    .bloque-complemento {
+      width: 100%;
+      margin-bottom: 30px;
+
+    }
+    
+  </style>
+
+
+
+
+
+
+
+<section id="productos" class="terma" style="min-width: 1200px; background-color: #ffffff; padding: 0px 0px; margin-top: 20px; margin-bottom: 20px; max-width: 100%;">
+  
+  <div class="animacion-contenedor" style="
+  position: absolute;
+  left: 0;
+  top: 20%;
+  width: 300px;
+  height: 300px;
+  ">
+    <div class="animacion" id="miAnimacion" style="
+      width: 300px; /* Ancho original de la animación */
+      height: 300px; /* Alto original de la animación */
+      transform: translateX(-50%); /* Desplaza la animación para mostrar la mitad derecha */
+    ">
+      <style>
+        .animacion {
+          z-index: -1;
+
+        }
+        
+      </style>
+      
+    </div>
+    <!-- Círculo animar gris a la derecha -->
+
+    
+  </div>
+      <div class="animacion-contenedor-derecha" style="
+      position: absolute;
+      right: 0;
+      top: 20%;
+      width: 300px;
+      height: 300px;
+      margin-top: 400px;
+    ">
+      <div class="animacion" id="miAnimacion2" style="
+        width: 300px;
+        height: 300px;
+        transform: translateX(50%);
+      ">
+      </div>
+    </div>
+
+  
+  <style>
+.animacion-contenedor {
+  position: absolute;
+  left: 0;
+  top: 20%;
+  width: 300px;
+  height: 300px;
+  z-index: 1;
+  pointer-events: none;
+}
+.animacion-contenedor-derecha {
+  position: absolute;
+  right: 0;
+  top: 20%;
+  width: 300px;
+  height: 300px;
+  z-index: 1;
+  pointer-events: none;
+}
+.terma {
+  position: relative;
+  overflow: visible; /* Permite que la animación sobresalga */
+}
+    @media screen and (max-width: 900px) {
+      .productos-para-movil {
+        display: grid !important; /* Asegura que se muestre como grid en móviles */
+      }
+.productos-para-movil > section {
+    display: contents; /* Permite que los hijos se comporten como si fueran hijos directos del grid */
+  }
+  .productos-para-movil {
+    display: grid !important;
+    grid-template-areas:
+      "div2"
+      "imagen"
+      "caracteristicas";
+    grid-template-columns: 1fr !important;
+    gap: 20px !important;
+  }
+  .div-2 { grid-area: div2 !important; }
+  .imagen-contenedor { grid-area: imagen !important; justify-self: center !important; }
+  .caracteristicas-container2 { grid-area: caracteristicas !important; }
+  .productos-para-movil .boton-whatsapp2 {
+  order: 99;
+  align-self: center;
+  margin-top: 30px;
+  /* Solo funciona si el padre es flex o grid */
+}
+}
+
+    
+  </style>
+  <div class="imagen-con-texto" style="justify-content: center; margin-top: 100px;">
+      
+ <div class="texto-al-lado">
+  <section class="productos-para-movil" style="display: flex; justify-content: center; ">
+    <div class="imagen-contenedor">
+      <img src="terma.svg" alt="Termas solares" style="max-width: 600px; height: 600px;">
+    </div>
+    <section>
+    <div class="div-2">
+    <div class="icono-titulo">
+      <img src="icono energy.svg" alt="">
+      <p class="texto-productos">Nuestros productos</p>
+    </div>
+      <h2>Termas solares</h2>
+      <p style="font-size: 0.9em; color: #555;">Las termas solares son una alternativa eficiente y ecológica para calentar agua utilizando la energía del sol. Este sistema permite reducir significativamente el consumo de gas o electricidad, lo que se traduce en ahorro económico y un menor impacto ambiental.</p>
+    </div>
+        <div class="caracteristicas-container2" style="margin-top: 100px;">
+            <div class="caracteristica2">
+                <img src="Layer 1.svg" alt=""><i class="numero">3</i>
+                <p class="descripcion"></p>
+                <h3>Tres años<br>de garantía</h3>
+            </div>
+            
+            <div class="caracteristica2">
+                <img src="acero.jpg" alt="">
+                <p class="descripcion2"></p>
+                <h3>Acero<br>inoxidable</h3>
+                
+            </div>
+            <div class="caracteristica2">
+                <img src="experiencia.jpg" alt=""><i class="numero">30</i>               
+                <p class="descripcion2"></p>
+                <h3>Treinta años <br> de experiencia</h3>
+            </div>
+        </div>
+    <a href="https://wa.me/51908823893" target="_blank" class="boton-whatsapp2">
+      <img src="whatsapp.png" alt="Icono de WhatsApp">Contáctanos
+    </a>
+  
+
+ <style>
+
+.numero2 {
+    font-size: 15pt;
+    margin-left: 15px;
+    vertical-align: super;
+    font-weight: 870;
+
+}
+
+.caracteristica2:hover {
+    transition: transform 0.4s ease-in-out;
+    transform: translateY(-50px) scale(1.1); /* Saca el texto hacia arriba */
+}
+
+.boton-whatsapp2 {
+    align-items: center; /* Centra verticalmente */
+    background: linear-gradient(to right, #ff7101, #FF7D18, #FF9B34); /* Degradado de izquierda a derecha */
+    color: white; /* Color del texto */
+    padding: 8px 28px; /* Espaciado interno */
+    border-radius: 22px; /* Bordes redondeados */
+    text-decoration: none; /* Sin subrayado */
+    font-family: 'Inter', sans-serif;
+    display: inline-flex; /* Flexbox para alinear el texto y el ícono */
+    gap: 10px;
+    margin-top: 8px;
+    font-size: 14pt;
+}
+
+.boton-whatsapp2:hover {
+    transform: scale(1.05); /* Ligeramente más grande al pasar el ratón */
+    /*añadirle tiempo de animacion*/
+    transition: transform 0.2s ease; /* Transición suave */
+}
+
+.caracteristica2 .numero2 {
+    text-align: center;
+}
+
+.caracteristicas-container2 {
+    display: flex; /* Alinea los bloques horizontalmente */
+    gap: 30px; /* Reduce el espaciado entre los bloques */
+    justify-content: center; /* Centra los bloques horizontalmente */
+
+}
+
+.caracteristica2 {
+    background-color: rgb(255, 255, 255); /* Fondo rojo */
+    color: rgb(48, 48, 48); /* Texto blanco*/
+    border-radius: 18px; /* Bordes redondeados */
+    padding: 20px 10px; /* Reduce el padding interno */
+    text-align: center; /* Centra el contenido */
+    width: 180px; /* Reduce el ancho del bloque */
+    height: 140px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3); /* Sombra más pequeña */
+    font-family: 'Inter', sans-serif;
+    transform: translateY(-34.5%);
+}
+
+
+
+.caracteristica2 h3 {
+    font-size: 16px; /* Reduce el tamaño del título */
+    margin-bottom: 5px; /* Reduce el margen inferior */
+    font-family: 'Inter', sans-serif;
+}
+@media (max-width: 900px) {
+  .animacion-contenedor,
+  .animacion-contenedor-derecha {
+    display: none !important;
+  }
+}
+
+
+    </style>
+
+
+
+
+
+
+
+
+
+
+
+<div class="bloque-invisible" style="margin-top: 30px; overflow-y: auto; position: relative; max-height: calc(3 * (61px + 10px)); ">
+  <div class="contenedor-animacion">
+    <div class="invisible original" style="border: 1px solid #ddd; padding: 10px;border-radius: 15px;">
+      <h4 style="font-size: 1em; margin-bottom: 5px;">Terma de 120L</h4>
+      <div style="display: flex; justify-content: space-between; font-size: 0.8em; color: #555;">
+        <p>Personas: 4</p>
+        <p>Espacio necesario: 1,10m x 2.00m</p>
+      </div>
+    </div>
+    <div class="invisible original" style="border: 1px solid #ddd; padding: 10px; margin-top: 10px; border-radius: 15px;">
+      <h4 style="font-size: 1em; margin-bottom: 5px;">Terma de 150L</h4>
+      <div style="display: flex; justify-content: space-between; font-size: 0.8em; color: #555;">
+        <p>Personas: 5</p>
+        <p>Espacio necesario: 1.30m x 2.00m</p>
+      </div>
+    </div>
+    <div class="invisible original" style="border: 1px solid #ddd; padding: 10px; margin-top: 10px; border-radius: 15px;">
+      <h4 style="font-size: 1em; margin-bottom: 5px;">Terma de 180L</h4>
+      <div style="display: flex; justify-content: space-between; font-size: 0.8em; color: #555;">
+        <p>Personas: 6</p>
+        <p>Espacio necesario: 1.60m x 2.00m</p>
+      </div>
+    </div>
+    <div class="invisible original" style="border: 1px solid #ddd; padding: 10px; margin-top: 10px; border-radius: 15px;">
+      <h4 style="font-size: 1em; margin-bottom: 5px;">Terma de 240L</h4>
+      <div style="display: flex; justify-content: space-between; font-size: 0.8em; color: #555;">
+        <p>Personas: 8</p>
+        <p>Espacio necesario: 2.10m x 2.00m</p>
+      </div>
+    </div>
+    <div class="invisible original" style="border: 1px solid #ddd; padding: 10px; margin-top: 10px; border-radius: 15px;">
+      <h4 style="font-size: 1em; margin-bottom: 5px;">Terma de 300L</h4>
+      <div style="display: flex; justify-content: space-between; font-size: 0.8em; color: #555;">
+        <p>Personas: 10</p>
+        <p>Espacio necesario: 2.60m x 2.00m</p>
+      </div>
+    </div>
+    <div class="invisible original" style="border: 1px solid #ddd; padding: 10px; margin-top: 10px; border-radius: 15px;">
+      <h4 style="font-size: 1em; margin-bottom: 5px;">Terma de 500L</h4>
+      <div style="display: flex; justify-content: space-between; font-size: 0.8em; color: #555;">
+        <p>Personas: 15</p>
+        <p>Espacio necesario: 4.00m x 2.00m</p>
+        
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+</section>
+
+<style>
+.bloque-invisible {
+    margin-top: 30px !important; /* Asegura que el bloque esté separado del contenido anterior */
+    position: relative;
+    max-height: calc(3 * (61px + 10px)); /* Altura para mostrar inicialmente 3 */
+    overflow: hidden; /* Oculta la barra de scroll */
+    padding-right: 17px; /* Espacio para evitar que el contenido se mueva al ocultar la barra (aproximado) */
+  }
+
+  .contenedor-animacion {
+    transition: transform 0.3s ease-out, animation-play-state 0.3s ease-in-out;
+  }
+
+  .animating {
+    animation: scrollVerticalSeamless 10s linear infinite;
+  }
+
+
+  @keyframes scrollVerticalSeamless {
+    0% {
+      transform: translateY(0);
+    }
+    100% {
+      transform: translateY(calc(-1 * (61px + 10px) * 6)); /* Desplaza la altura de todos los elementos */
+    }
+  }
+
+  /* Estilos para WebKit (Chrome, Safari) */
+  .bloque-invisible::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Estilos para Firefox */
+  .bloque-invisible {
+    scrollbar-width: none;
+  }
+</style>
+
+<script>
+  const bloqueInvisible = document.querySelector('.bloque-invisible');
+  const contenedorAnimacion = document.querySelector('.contenedor-animacion');
+  const originalItems = document.querySelectorAll('.invisible.original');
+  const itemHeightWithMargin = 61 + 10;
+  const totalOriginalItems = originalItems.length;
+  const visibleHeight = bloqueInvisible.offsetHeight;
+  let animationTimeout;
+  let isScrolling = false;
+  let isAnimating = true; // Controlar si la animación está activa
+
+  // Duplicar los elementos para el bucle (solo si la animación está activa)
+  const duplicateElements = () => {
+    // Limpiar duplicados previos
+    const clones = contenedorAnimacion.querySelectorAll('.invisible:not(.original)');
+    clones.forEach(clone => clone.remove());
+
+    if (isAnimating) {
+      for (let i = 0; i < Math.ceil(visibleHeight / itemHeightWithMargin); i++) {
+        originalItems.forEach(item => {
+          const clonedItem = item.cloneNode(true);
+          contenedorAnimacion.appendChild(clonedItem);
+        });
+      }
+      contenedorAnimacion.classList.add('animating');
+    } else {
+      contenedorAnimacion.classList.remove('animating');
+      contenedorAnimacion.style.transform = 'translateY(0)'; // Asegurar que esté al inicio
+    }
+  };
+
+  duplicateElements(); // Duplicar al cargar
+
+  bloqueInvisible.addEventListener('scroll', () => {
+    isScrolling = true;
+    isAnimating = false; // Detener la animación al scrollear
+    duplicateElements(); // Remover duplicados
+    contenedorAnimacion.style.animationPlayState = 'paused';
+    clearTimeout(animationTimeout);
+
+    animationTimeout = setTimeout(() => {
+      isScrolling = false;
+      isAnimating = true; // Reanudar la animación después de 5 segundos
+      duplicateElements(); // Volver a duplicar
+      contenedorAnimacion.style.animationPlayState = 'running';
+    }, 5000);
+  });
+
+  contenedorAnimacion.addEventListener('animationiteration', () => {
+    if (isAnimating) {
+      contenedorAnimacion.style.transform = 'translateY(0)';
+    }
+  });
+</script>
+    </div>
+  </div>
+</section>
+
+
+<script>
+  var animation = lottie.loadAnimation({
+    container: document.getElementById('miAnimacion'),
+    renderer: 'svg',
+    loop: true,
+    autoplay: true,
+    path: 'circulo animar.json'
+  });
+</script>
+
+<script>
+  var animation = lottie.loadAnimation({
+    container: document.getElementById('miAnimacion2'),
+    renderer: 'svg',
+    loop: true,
+    autoplay: true,
+    path: 'circulo animar gris.json'
+  });
+</script>
+
+<style>
+  .terma {
+    display: flex;
+    align-items: center;
+    padding: 40px;
+    max-width: 1200px;
+    margin: 0 auto;
+    position: relative; /* Necesario para posicionar la animación absolutamente */
+    justify-content: center;
+  }
+
+  .animacion-contenedor {
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 75px;
+    overflow: hidden;
+    height: 150px;
+  }
+
+  .imagen-con-texto {
+    display: flex;
+    align-items: flex-start;
+    gap: 40px;
+    flex: 1;
+    margin-left: 75px; /* Ajusta el margen al ancho visible de la animación */
+  }
+
+  .imagen-contenedor img {
+    max-width: 350px;
+    height: auto;
+    z-index: 1;
+  }
+  .terma {
+
+  padding-left: 0;
+  margin-left: 0;
+}
+
+body {
+  margin: 0;
+}
+  .texto-al-lado {
+    max-width: 600px;
+    font-family: 'Inter', sans-serif;
+    font-size: 16px;
+    text-align: left;
+  }
+</style>
+
+
+
+
+
+<br><br>
+
+
+
+<div class="bloque-complemento">
+  <div class="texto">
+    <h2>Energía<span style="color: rgb(1, 1, 112);"> de día</span> y luz <span style="color: rgb(1, 1, 112);">de <br>noche</span></h2>
+    <p>¡Para de pagar tanto en la cuenta de luz! Aprovecha los rayos de sol para producir energía.</p>
+  </div>
+
+</div>
+
+
+
+
+
+<section class="seccion-paneles-solares">
+  <div class="carrusel-paneles">
+    <div class="slide-panel activa" >
+      <div class="info-paneles">
+        <div class="icono-titulo">
+          <img src="icono energy.svg" alt="">
+          <p class="texto-productos">Nuestros productos</p>
+        </div>
+        <h2 class="titulo-paneles">Paneles Solares</h2>
+        <p class="descripcion-paneles">Los paneles solares se han convertido en una solución eficiente y sostenible para generar energía limpia. Su instalación permite reducir el consumo eléctrico proveniente de la red y contribuir al cuidado del medio ambiente.</p>
+        <a href="https://wa.me/51908823893" target="_blank" class="boton-whatsapp">
+          <img src="whatsapp.png" alt="Icono de WhatsApp">Contáctanos
+        </a>
+      </div>
+      <div class="imagen-paneles-container">
+        <img class="imagen-paneles-muy-grande" src="PANEL2.svg" alt="">
+      </div>
+    </div>
+    <div class="slide-panel">
+      <div class="info-paneles">
+        <div class="icono-titulo">
+          <img src="icono energy.svg" alt="">
+          <p class="texto-productos">Nuestros productos</p>
+        </div> 
+        <h2 class="titulo-paneles" style="line-height: 1.1;">Calentador de <br> Piscinas</h2>
+        <p class="descripcion-paneles">Los calentadores solares de piscinas usan energía solar para mantener el agua a buena temperatura todo el año, sin consumir electricidad ni gas, ayudando a ahorrar y cuidar el medio ambiente.</p>
+        <a href="https://wa.me/51908823893" target="_blank" class="boton-whatsapp">
+          <img src="whatsapp.png" alt="Icono de WhatsApp">Contáctanos
+        </a>
+      </div>
+      <div class="imagen-paneles-container">
+        <img class="imagen-paneles-muy-grande" src="calentador de piscinas.jpg" alt="">
+      </div>
+    </div>
+    <div class="slide-panel">
+      <div class="info-paneles">
+        <div class="icono-titulo">
+          <img src="icono energy.svg" alt="">
+          <p class="texto-productos">Nuestros productos</p>
+        </div>
+        <h2 class="titulo-paneles">Cocina Solar</h2>
+        <p class="descripcion-paneles">Las cocinas solares son una forma ecológica y económica de cocinar, ideal en zonas con abundante sol y acceso limitado a otras fuentes de energía. A pesar de algunas limitaciones, ofrecen ventajas que las hacen una opción viable para muchas personas.</p>
+        <a href="https://wa.me/51908823893" target="_blank" class="boton-whatsapp">
+          <img src="whatsapp.png" alt="Icono de WhatsApp">Contáctanos
+        </a>
+      </div>
+      <div class="imagen-paneles-container">
+        <img class="imagen-paneles-muy-grande" src="cocina solar.jpg" alt="">
+      </div>
+    </div>
+    <div class="slide-panel">
+      <div class="info-paneles">
+        <div class="icono-titulo">
+          <img src="icono energy.svg" alt="">
+          <p class="texto-productos">Linterna Solar</p>
+        </div>
+        <h2 class="titulo-paneles">Paneles Solares</h2>
+        <p class="descripcion-paneles">Las linternas solares son una alternativa práctica y sostenible, perfectas para zonas sin acceso constante a electricidad. Se recargan con la luz del sol y ofrecen una fuente de iluminación confiable y ecológica.</p>
+        <a href="https://wa.me/51908823893" target="_blank" class="boton-whatsapp">
+          <img src="whatsapp.png" alt="Icono de WhatsApp">Contáctanos
+        </a>
+      </div>
+      <div class="imagen-paneles-container">
+        <img class="imagen-paneles-muy-grande" src="linterna solar.jpg" alt="">
+      </div>
+    </div>
+  </div>
+</section>
+  <div class="puntos-carrusel">
+    <span class="punto-carrusel activo"></span>
+    <span class="punto-carrusel"></span>
+    <span class="punto-carrusel"></span>
+    <span class="punto-carrusel"></span>
+  </div>
+
+
+
+<style>
+  /* Carrusel paneles solares */
+.carrusel-paneles {
+  position: relative;
+  width: 100%;
+  min-height: 400px;
+}
+.slide-panel {
+  position: absolute;
+  top: 0; left: 0; width: 100%; height: 100%;
+  opacity: 0;
+  transition: opacity 1s;
+  pointer-events: none;
+  z-index: 1;
+  display: flex;
+}
+.slide-panel.activa {
+  opacity: 1;
+  pointer-events: auto;
+  z-index: 2;
+}
+.puntos-carrusel {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 18px;
+  top: 0px !important;
+}
+.punto-carrusel {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #bbb;
+  display: inline-block;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+.punto-carrusel.activo {
+  background: #ff7101;
+  box-shadow: 0 0 0 4px #ff710133;
+}
+
+</style>
+
+
+<style>
+  .seccion-paneles-solares {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 1300px; /* Aumentamos el ancho máximo del contenedor */
+    margin: 30px auto; /* Aumentamos los márgenes */
+    padding: 30px; /* Aumentamos el padding */
+  }
+
+  .info-paneles {
+    flex: 1;
+    padding-right: 30px; /* Aumentamos el padding derecho del texto */
+    text-align: left;
+    margin-top: 50px;
+    }
+
+    .info-paneles .boton-whatsapp{
+      margin-top: -5px !important;
+    }
+
+  .icono-titulo {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px; /* Aumentamos el margen inferior del icono y título */
+    gap: 10px;
+  }
+  
+  
+
+  .icono-productos {
+    width: 25px; /* Aumentamos el tamaño del icono */
+    height: 25px; /* Aumentamos el tamaño del icono */
+    margin-right: 10px;
+  }
+
+  .texto-productos {
+    font-size: 1em; /* Aumentamos el tamaño del texto */
+    color: #777;
+    margin: 0;
+  }
+
+  .titulo-paneles {
+    font-size: 3em !important; /* Aumentamos el tamaño del título */
+    color: #001E83;
+    margin-top: 0;
+    margin-bottom: 20px; /* Aumentamos el margen inferior del título */
+  }
+
+  .descripcion-paneles {
+    font-size: 1.1em; /* Aumentamos el tamaño de la descripción */
+    color: #555;
+    line-height: 1.7; /* Aumentamos el espaciado entre líneas */
+    margin-bottom: 25px; /* Aumentamos el margen inferior de la descripción */
+    width: 400px;
+    line-height: 1.3 !important;
+
+  }
+
+.imagen-paneles-container {
+  flex: 1;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  /* Elimina el padding si lo hay */
+  padding: 0;
+  margin-right: 0;
+}
+
+.imagen-paneles-muy-grande {
+    /* Aumenta el tamaño máximo */  /* Aumenta la altura máxima */
+  width: 150%;
+  height: auto;
+  object-fit: contain;
+}
+
+.seccion-paneles-solares {
+  gap: 0; /* Reduce el espacio entre imagen y texto */
+}
+  /* Carrusel horizontal en móvil */
+@media (max-width: 900px) {
+  .seccion-paneles-solares {
+    display: block !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    max-width: 100vw !important;
+    overflow: hidden;
+  }
+  .carrusel-paneles {
+    display: flex !important;
+    flex-direction: row !important;
+    overflow-x: auto !important;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    width: 100vw !important;
+    min-height: 420px;
+    position: static !important;
+    gap: 0;
+  }
+  .slide-panel {
+    flex: 0 0 100vw;
+    width: 100vw !important;
+    min-width: 100vw !important;
+    max-width: 100vw !important;
+    height: auto !important;
+    opacity: 1 !important;
+    position: static !important;
+    display: flex !important;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    scroll-snap-align: start;
+    pointer-events: auto !important;
+    z-index: 1 !important;
+    transition: none !important;
+    
+  }
+    .carrusel-paneles {
+    scrollbar-width: none; /* Firefox */
+  }
+  .carrusel-paneles::-webkit-scrollbar {
+    display: none; /* Chrome, Safari y Opera */
+  }
+
+    .imagen-paneles-muy-grande {
+    max-width: 90vw;   /* Que ocupe casi todo el ancho en móvil */
+    max-height: 350px; /* Ajusta la altura máxima en móvil */
+  }
+  .seccion-paneles-solares {
+    gap: 8px; /* Menor espacio entre imagen y texto en móvil */
+  }
+    .titulo-paneles {
+    font-size: 2em !important;
+    word-break: break-word;
+  }
+  .descripcion-paneles {
+    font-size: 1em !important;
+    width: 90vw; /* Ajusta el ancho de la descripción en móvil */
+  }
+}
+
+</style>
+
+
+
+
+
+
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const slides = document.querySelectorAll('.slide-panel');
+  const puntos = document.querySelectorAll('.punto-carrusel');
+  let current = 0;
+  let interval = null;
+  let pauseTimeout = null;
+
+  function showSlide(idx) {
+    slides.forEach((slide, i) => {
+      slide.classList.toggle('activa', i === idx);
+      puntos[i].classList.toggle('activo', i === idx);
+    });
+    current = idx;
+  }
+
+  function nextSlide() {
+    let next = (current + 1) % slides.length;
+    showSlide(next);
+  }
+
+  function startAuto() {
+    clearInterval(interval);
+    interval = setInterval(nextSlide, 3000);
+  }
+
+  // Solo efecto automático en escritorio
+  if (window.innerWidth > 900) {
+    puntos.forEach((punto, idx) => {
+      punto.addEventListener('click', function() {
+        showSlide(idx);
+        clearInterval(interval);
+        clearTimeout(pauseTimeout);
+        pauseTimeout = setTimeout(startAuto, 8000); // Pausa 8 segundos
+      });
+    });
+    showSlide(0);
+    startAuto();
+  } else {
+    // En móvil: muestra todos los slides, activa el primero y los puntos
+    showSlide(0);
+    // Opcional: sincroniza los puntos con el scroll
+    const carrusel = document.querySelector('.carrusel-paneles');
+    carrusel.addEventListener('scroll', function() {
+      const scrollLeft = carrusel.scrollLeft;
+      const slideWidth = carrusel.offsetWidth;
+      const idx = Math.round(scrollLeft / slideWidth);
+      puntos.forEach((p, i) => p.classList.toggle('activo', i === idx));
+    });
+    puntos.forEach((punto, idx) => {
+      punto.addEventListener('click', function() {
+        const carrusel = document.querySelector('.carrusel-paneles');
+        carrusel.scrollTo({
+          left: idx * carrusel.offsetWidth,
+          behavior: 'smooth'
+        });
+      });
+    });
+  }
+});
+</script>
+
+
+
+<style>
+  /* Por defecto (para móviles y escritorio): visibles */
+.titulo-seccion,
+.contenedor-pasos {
+  opacity: 1;
+  transition: none;
+}
+
+/* Solo en escritorio: efecto de aparición */
+@media (min-width: 769px) {
+  .titulo-seccion,
+  .contenedor-pasos {
+    opacity: 0;
+    transition: opacity 0.8s ease;
+  }
+
+  .aparecer {
+    opacity: 1;
+  }
+}
+
+</style>
+<script>
+  function esDispositivoMovil() {
+    return /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent) || window.innerWidth < 769;
+  }
+
+  if (!esDispositivoMovil()) {
+    function aparecerAlScroll() {
+      const elementos = document.querySelectorAll('.texto-informacion, .imagen, .titulo-seccion, .contenedor-pasos');
+      elementos.forEach(el => {
+        const rect = el.getBoundingClientRect();
+        const altoVentana = window.innerHeight;
+
+        if (rect.top < altoVentana - 100) {
+          el.classList.add('aparecer');
+        }
+      });
+    }
+
+    window.addEventListener('scroll', aparecerAlScroll);
+    window.addEventListener('load', aparecerAlScroll);
+  }
+</script>
+
+
+
+
+
+
+
+
+
+<section class="proceso-fotovoltaico-completo">
+  <div class="titulo-seccion">
+    <h2>¿Cómo se desarrolla un proyecto Fotovoltaico?</h2>
+  </div>
+  <div class="contenedor-pasos">
+    <div class="paso">
+      <div class="icono-contenedor">
+        <img src="icono proyecto1.svg" alt="">
+      </div>
+      <div class="descripcion-contenedor">
+        <h3>1. Análisis del consumo eléctrico</h3>
+        <p>Revisar recibo de luz para conocer el consumo.</p>
+      </div>
+    </div>
+
+    <div class="paso">
+      <div class="icono-contenedor">
+        <img src="icono proyecto2.svg" alt="">
+      </div>
+      <div class="descripcion-contenedor">
+        <h3>2. Identificación de la demanda energética</h3>
+        <p>Revisar recibo de luz para conocer el consumo.</p>
+      </div>
+    </div>
+
+    <div class="paso">
+      <div class="icono-contenedor">
+        <img src="icono proyecto3.svg" alt="">
+      </div>
+      <div class="descripcion-contenedor">
+        <h3>3. Dimensionamiento del sistema</h3>
+        <p>Calcular número de paneles y equipos necesarios.</p>
+      </div>
+    </div>
+
+    <div class="paso">
+      <div class="icono-contenedor">
+        <img src="icono proyecto4.svg" alt="">
+      </div>
+      <div class="descripcion-contenedor">
+        <h3>4. Evaluación del espacio disponible</h3>
+        <p>Verificar espacio disponible y definir la mejor ubicación para los paneles.</p>
+      </div>
+    </div>
+
+    <div class="paso">
+      <div class="icono-contenedor">
+        <img src="icono proyecto5.svg" alt="">
+      </div>
+      <div id="beneficios" class="descripcion-contenedor">
+        <h3>5. Ejecución del proyecto</h3>
+        <p>Realizar la instalación según el diseño y conexión del sistema.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .proceso-fotovoltaico-completo {
+    background-color: #fff; /* Fondo blando */
+    width: 100%;
+    padding: 40px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 50px !important;
+  }
+
+  .titulo-seccion {
+    color: #fff;
+    margin-bottom: 30px;
+    padding: 15px 120px;
+    /*color gradiente lineal*/
+    background: linear-gradient(to right, #001E83, #003789, #0075C6); /* Gradiente de izquierda a derecha */
+    border-radius: 60px;
+    width: 763px;
+  }
+  @media screen and (max-width: 900px) {
+    .titulo-seccion {
+      padding: 10px 15px !important; /* Reduce el padding en pantallas pequeñas */
+      width: auto; /* Permite que el ancho se ajuste al contenido */
+    }
+    
+  }
+
+  .titulo-seccion h2 {
+    font-size: 2em;
+    font-family: 'inter', sans-serif;
+    margin-bottom: 10px
+  }
+
+  .contenedor-pasos {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    max-width: 1200px;
+  }
+
+  .paso {
+    background-color: #fff;
+    border-radius: 8px;
+    padding: 20px;
+    margin: 15px;
+    width: calc(33% - 30px); /* Aproximadamente un tercio del ancho con márgenes */
+    min-width: 300px; /* Ancho mínimo para evitar que se colapsen */
+    display: flex; /* Convertimos el paso en un contenedor Flexbox */
+    align-items: stretch; /* Estiramos los elementos hijos a la misma altura */
+    text-align: left; /* Alineamos el texto a la izquierda para mejor lectura */
+  }
+
+  .icono-contenedor {
+    width: 80px; /* Ajusta el ancho del contenedor del icono */
+    height: 80px; /* Ajusta la altura del contenedor del icono */
+    margin-right: 15px; /* Espacio entre el icono y el texto */
+    display: flex; /* Centramos la imagen dentro del contenedor */
+    justify-content: center;
+    align-items: center;
+  }
+
+  .icono-contenedor img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain; /* Aseguramos que la imagen se ajuste sin deformarse */
+  }
+
+  .descripcion-contenedor {
+    flex-grow: 1; /* Permite que la descripción ocupe el espacio restante */
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Centra el texto verticalmente */
+  }
+
+  .descripcion-contenedor h3 {
+    color: #474747; /* Color del título del paso */
+    font-size: 1.2em;
+    margin-top: 0;
+    margin-bottom: 5px;
+  }
+
+  .descripcion-contenedor p {
+    color: #555;
+    font-size: 0.9em;
+    line-height: 1.4;
+    margin-bottom: 0;
+  }
+</style>
+
+
+
+
+<style>
+  /* Por defecto: sin efecto (visible siempre) */
+.contenedor-beneficios,
+.card-beneficio,
+.card-beneficio1 {
+  opacity: 1;
+  transition: none;
+}
+
+/* Solo en escritorio: ocultos inicialmente */
+@media (min-width: 769px) {
+  .contenedor-beneficios,
+  .card-beneficio,
+  .card-beneficio1 {
+    opacity: 0;
+    transition: opacity 0.8s ease;
+  }
+
+  .aparecer {
+    opacity: 1;
+  }
+}
+
+</style>
+<script>
+  function esDispositivoMovil() {
+    return /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent) || window.innerWidth < 769;
+  }
+
+  if (!esDispositivoMovil()) {
+    function aparecerAlScroll() {
+      const elementos = document.querySelectorAll(
+        '.texto-informacion, .imagen, .titulo-seccion, .contenedor-pasos, .contenedor-beneficios, .card-beneficio, .card-beneficio1'
+      );
+      
+      elementos.forEach(el => {
+        const rect = el.getBoundingClientRect();
+        const altoVentana = window.innerHeight;
+
+        if (rect.top < altoVentana - 100) {
+          el.classList.add('aparecer');
+        }
+      });
+    }
+
+    window.addEventListener('scroll', aparecerAlScroll);
+    window.addEventListener('load', aparecerAlScroll);
+  }
+</script>
+
+
+
+
+
+
+
+
+<section class="beneficios-paneles-solares">
+  <div class="contenedor-beneficios">
+    <div class="icono-titulo">
+      <img src="icono energy.svg" alt="">
+      <p class="titulo-beneficio">Beneficios</p>
+    </div>
+    <h3 class="subtitulo-beneficios">Cambios que notará al tener un panel o terma solar</h3>
+    <p class="descripcion-beneficios">Porem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu turpis molestie, dictum est a, mattis tellus. Sed dignissim, metus nec fringilla accumsan, risus sem sollicitudin lacus, ut interdum tellus elit sed risus. Maecenas eget condimentum velit, sit amet feugiat lectus. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Praesent auctor purus luctus enim egestas, ac scelerisque ante pulvinar.</p>
+    <div class="contenedor-cards">
+      <div class="card-beneficio">
+        <div class="texto-beneficio"><div class="numero-beneficio">1</div><p style="margin-left: 25px; font-size: 11pt;">Independencia energética</p></div>
+        <img src="fondo-beneficios.png" alt="Beneficio 1" class="imagen-beneficio" style="height: 100%;">
+      </div>
+      <div class="card-beneficio1">
+        <div class="texto-beneficio"><div class="numero-beneficio">2</div><p style="margin-left: 25px; font-size: 11pt;">Recupera tu inversión rápidamente</p></div>
+        <img src="fondo-beneficios.png" alt="Beneficio 2" class="imagen-beneficio" style="height: 100%;">
+      </div>
+      <div class="card-beneficio">
+        <div class="texto-beneficio"><div class="numero-beneficio">3</div><p style="margin-left: 25px; font-size: 11pt;">Recupera tu inversión rápidamente</p></div>
+        <img src="fondo-beneficios.png" alt="Beneficio 3" class="imagen-beneficio" style="height: 100%;">
+      </div>
+      <div class="card-beneficio1">
+        <div class="texto-beneficio"><div class="numero-beneficio">1</div><p style="margin-left: 25px; font-size: 11pt;">Protección contra subidas de tarifas</p></div>
+        <img src="fondo-beneficios.png" alt="Beneficio 4" class="imagen-beneficio" style="height: 100%;">
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .beneficios-paneles-solares {
+    background-color: #fff; /* Fondo gris claro */
+    padding: 40px 20px;
+    display: flex;
+    justify-content: center;
+  }
+
+  .contenedor-beneficios {
+    max-width: 1200px;
+    width: 100%;
+  }
+
+  .contenedor-beneficios h3{
+    color: #001E83;
+    font-size: 30pt;
+    font-family: 'poppins', sans-serif;
+  }
+
+  .subtitulo-beneficios {
+    color: #333;
+    font-size: 1.8em;
+    margin-bottom: 15px;
+  }
+
+  .descripcion-beneficios {
+    color: #555;
+    line-height: 1.6;
+    margin-bottom: 30px;
+  }
+
+  .contenedor-cards {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+
+  .card-beneficio {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    flex: 1 1 calc(25% - 20px); /* Cuatro columnas con espacio entre ellas */
+    min-width: 250px; /* Ancho mínimo de cada card */
+    display: flex;
+    flex-direction: column;
+    position: relative; /* Para posicionar absolutamente el número y el texto */
+    height: 400px;
+  }
+    .card-beneficio1 {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    flex: 1 1 calc(25% - 20px); /* Cuatro columnas con espacio entre ellas */
+    min-width: 250px; /* Ancho mínimo de cada card */
+    display: flex;
+    flex-direction: column;
+    position: relative; /* Para posicionar absolutamente el número y el texto */
+    margin-top: 30px;
+    height: 400px;
+  }
+
+  .numero-beneficio {
+    background-color: #ff9800; /* Fondo naranja del número */
+    color: #fff;
+    font-size: 1.2em;
+    font-weight: bold;
+    border-radius: 50%;
+    width: 25px;
+    height: 25px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: 10px;
+    left: 10px;
+  }
+
+  .texto-beneficio {
+    background-color: #0c4391; /* Fondo azul del texto */
+    color: #fff;
+    padding: 15px;
+    text-align: left;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    font-weight: bold;
+    font-size: 0.9em;
+  }
+
+  .imagen-beneficio {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 16 / 9; /* Proporción similar a la imagen */
+    object-fit: cover;
+  }
+/* Oculta la imagen-beneficio en móvil, pero mantiene el recuadro de texto y número */
+@media (max-width: 600px) {
+  .imagen-beneficio {
+    display: none !important;
+  }
+  .texto-beneficio {
+    position: static !important; /* El recuadro de texto se mantiene visible y en flujo */
+    margin-bottom: 20px;         /* Espacio inferior opcional */
+    border-radius: 15px !important; /* Bordes redondeados opcionales */
+  }
+  .card-beneficio,
+  .card-beneficio1 {
+    height: auto !important;      /* Elimina el alto fijo */
+    min-height: unset !important; /* Elimina el min-height si lo hay */
+    margin-bottom: 10px;          /* Espacio solo entre recuadros */
+    background: none !important;  /* Elimina fondo blanco si lo tiene */
+    box-shadow: none !important;  /* Elimina sombra si lo tiene */
+    border-radius: 15px !important;  /* Opcional: elimina bordes redondeados */
+  }
+}
+</style>
+
+
+
+
+
+
+<div class="bloque-complemento">
+  <div class="texto">
+    <h2>Invierte de forma <br><span style="color: rgb(1, 1, 112);">inteligente</span> con nosotros</h2>
+    <p>¡Para de pagar tanto en la cuenta de luz! Aprovecha los rayos de sol para producir energía.</p>
+  </div>
+
+</div>
+
+
+
+
+
+
+    <section class="contenedor-formulario" id="contacto-formulario">
+        <div class="imagen-formulario">
+            <img src="imagen_formulario.svg" alt="Trabajador de construcción"> 
+        </div>
+        <div class="bloque-formulario-general" >
+            <h1>¿Tienes alguna pregunta <br>para nosotros?</h1>
+            <form id="bloqueFormulario" action="https://formsubmit.co/diegoarmandocanaviremamani@gmail.com" method="post" >
+              <input type="hidden" name="_next" value="https://armandc09.github.io/SolarSur1/?enviado=1">
+                <div class="datos-personales form-row"><div class="nombres form-group" > <label for="nombre"></label>
+                        <input type="text" id="nombre" name="nombre" placeholder="Nombre" required >
+                    </div>
+                    <div class="apellidos form-group"> <label for="apellido"></label>
+                        <input type="text" id="apellido" name="apellido" placeholder="Apellido" required>
+                    </div>
+                </div>
+                <div class="contato-formulario form-row"> <div class="correo form-group"> <label for="correo">Correo</label>
+                        <input type="email" id="correo" name="correo" placeholder="tuCorreoAquí@gmail.com" required>
+                    </div>
+                    <div class="telefono form-group"> <label for="numero">Número</label>
+                        <input type="tel" id="numero" name="numero" placeholder="+51 999 999 999" pattern="[0-9]{9}" title="Ingrese un número de teléfono válido de 9 dígitos" required>
+                    </div>
+                </div>
+                <div class="seleccion-asunto form-group"> <label for="asunto">Asunto</label>
+                    <div class="seleccion custom-select"> <select id="asunto" name="asunto" required>
+                            <option value="mantenimiento">Mantenimiento</option>
+                            <option value="consulta">Consulta</option>
+                            <option value="soporte">Soporte</option>
+                            <option value="otro">Otro</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="mensajes">
+                  <label for="mensaje">Mensaje</label>
+                    <div class="textarea-wrapper"> <textarea id="mensaje" name="mensaje" placeholder="Buenos días..." rows="5" class="no-resizable" maxlength="365"></textarea>
+                      <div id="contador-caracteres">
+                        <span id="actual">0</span> / <span id="maximo">365</span>
+                      </div>
+                    </div>
+                </div>
+                <div class="segundo-contacto form-group"> <label for="contacto_preferencia">Contacto de preferencia</label>
+                    <div class="seleccion custom-select"> <select id="contacto_preferencia" name="contacto_preferencia">
+                            <option value="telefono">Teléfono</option>
+                            <option value="email">Email</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="aceptar-politicas">
+                    <input type="checkbox" id="acepta_politicas" name="acepta_politicas" required>
+                    <label for="acepta_politicas">Acepta las políticas de privacidad</label>
+                </div>
+
+                <button type="submit" class="boton-enviar">Enviar</button>
+
+            </form>
+        </div>
+    </section>
+
+<script>
+    const textarea = document.getElementById('mensaje');
+    const contadorActual = document.getElementById('actual');
+    const contadorMaximo = document.getElementById('maximo');
+    const maxLength = textarea.getAttribute('maxlength');
+
+    // Inicializar el contador máximo
+    contadorMaximo.textContent = maxLength;
+
+    textarea.addEventListener('input', () => {
+        const currentLength = textarea.value.length;
+        contadorActual.textContent = currentLength;
+
+        if (currentLength >= maxLength) {
+            contadorActual.style.color = 'red';
+        } else {
+            contadorActual.style.color = '#888'; // Vuelve al color original
+        }
+    });
+</script>
+
+<style>
+
+
+/* --- Estilos Generales y Reseteo --- */
+html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+}
+
+body {
+    justify-content: center;
+    align-items: center;
+}
+
+.no-resizable {
+    resize: none;
+  }
+
+  .textarea-wrapper {
+    position: relative; /* Esencial para posicionar el contador absolutamente dentro de él */
+    display: inline-block; /* Ocupa solo el ancho del textarea */
+    width: 100%; /* Asegura que el wrapper tome el ancho del contenedor padre */
+  }
+
+  textarea {
+    width: 100%; /* Asegura que el textarea llene el wrapper */
+    box-sizing: border-box; /* Incluye padding y borde en el ancho total */
+    padding-bottom: 25px; /* Deja espacio para el contador en la parte inferior */
+  }
+
+  #contador-caracteres {
+    position: absolute; /* Permite posicionar el contador libremente */
+    bottom: 10px; /* Distancia desde el borde inferior del textarea-wrapper */
+    right: 10px; /* Distancia desde el borde derecho del textarea-wrapper */
+    font-size: 0.8em; /* Un poco más pequeño para que no ocupe mucho */
+    color: #888;
+    background-color: white; /* Para asegurar que el texto sea legible sobre el textarea */
+    padding: 0 3px; /* Pequeño padding para el fondo */
+    border-radius: 3px; /* Bordes ligeramente redondeados */
+  }
+
+
+
+
+
+/* --- Sección de la Imagen --- */
+.imagen-formulario {
+    flex: 1; /* Ocupa el espacio restante */
+    display: flex;
+    justify-content: center;
+    align-items: flex-end; /* Alinea la imagen en la parte inferior del contenedor */
+    position: relative; /* Para posicionar elementos internos si los hubiera */
+    padding-left: 20px; /* Espacio a la izquierda de la imagen */
+}
+
+.imagen-formulario img {
+    width: auto; /* Asegura que la imagen no se desborde */
+    height: 100%;
+    object-fit: contain; /* Asegura que la imagen se ajuste dentro del contenedor */
+}
+
+/* --- Contenedor Principal del Formulario --- */
+.contenedor-formulario {
+    display: flex;
+    width: 100%; /* Ancho responsivo */
+    justify-content: center; /* Centra el contenido */
+    margin-bottom: 10vh;
+    padding: 0px 100px;
+    text-align: left; /* Alinea el texto a la izquierda */
+    background-image: url('fondo_formulario.png'); /* O 'tu_imagen_de_fondo.png' */
+    gap: 140px;
+}
+
+/* --- Sección del Formulario (lado derecho) --- */
+.bloque-formulario-general {
+    flex: 1.2;
+    padding: 40px 24px; /* Mismo espacio a derecha e izquierda */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    /* align-items: center;  <-- QUITA ESTA LÍNEA */
+    background-color: #fff;
+    margin-bottom: 50px;
+    margin-top: 50px;
+    border-radius: 30px;
+    box-sizing: border-box;
+}
+
+.bloque-formulario-general form {
+    width: 100%;
+    max-width: 100%;
+    margin: 0; /* Elimina cualquier margen */
+    align-items: stretch;
+    justify-content: center;
+}
+.bloque-formulario-general h1 {
+    font-size: 30pt; /* Tamaño del título */
+    color: #001E83; /* Color del título */
+    margin-bottom: 30px;
+    line-height: 1.2; /* Espaciado de línea para el título */
+    font-weight: 600; /* Semibold */
+}
+
+/* --- Estilos de la Forma (form) --- */
+#bloqueFormulario {
+    display: flex;
+    flex-direction: column;
+    gap: 15px; /* Espaciado entre grupos de campos */
+}
+
+/* --- Filas de Formulario (para campos en paralelo) --- */
+.form-row {
+    display: flex;
+    gap: 20px; /* Espaciado entre campos en la misma fila */
+    flex-wrap: wrap; /* Permite que los campos se envuelvan en pantallas pequeñas */
+}
+
+.form-group {
+    flex: 1; /* Hace que los grupos de formulario ocupen el espacio disponible */
+    display: flex;
+    flex-direction: column;
+    min-width: 200px; /* Ancho mínimo para cada campo en la fila */
+}
+
+
+/* --- Estilos de Labels --- */
+label {
+    font-size: 15pt;
+    color: #000000;
+    margin-bottom: 5px;
+    font-weight: 400; /* Regular */
+}
+
+/* --- Estilos de Inputs, Textareas y Selects --- */
+input[type="text"],
+input[type="email"],
+input[type="tel"],
+textarea,
+select {
+    padding: 12px 15px; /* Más padding para los campos */
+    border: 1px solid #e0e0e0; /* Borde más suave */
+    border-radius: 8px; /* Bordes más redondeados */
+    font-size: 1em;
+    color: #333;
+    outline: none; /* Elimina el contorno al enfocar */
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    box-sizing: border-box; /* Asegura que padding y border se incluyan en el ancho/alto */
+    width: 100%;
+        border-color: #818181; /* Color de borde al enfocar */
+
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="tel"]:focus,
+textarea:focus,
+select:focus {
+    border-color: #FF9C33; /* Color de borde al enfocar */
+    box-shadow: 0 0 0 3px rgba(255, 156, 51, 0.2); /* Sombra suave al enfocar */
+}
+
+textarea {
+    resize: vertical; /* Permite redimensionar verticalmente */
+    min-height: 120px; /* Altura mínima para el campo de mensaje */
+}
+
+/* --- Estilos para Selects Personalizados (flecha) --- */
+.custom-select {
+    position: relative;
+    width: 100%;
+}
+
+.custom-select select {
+    -webkit-appearance: none; /* Elimina la flecha predeterminada en WebKit */
+    -moz-appearance: none;    /* Elimina la flecha predeterminada en Firefox */
+    appearance: none;         /* Elimina la flecha predeterminada */
+    background-image: url('data:image/svg+xml;utf8,<svg fill="%23888888" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/><path d="M0 0h24v24H0z" fill="none"/></svg>');
+    background-repeat: no-repeat;
+    background-position: right 12px center; /* Posición de la flecha personalizada */
+    background-size: 20px;
+    padding-right: 40px; /* Espacio para la flecha */
+}
+
+/* --- Estilos del Checkbox --- */
+.checkbox-group {
+    display: flex;
+    align-items: center;
+    margin-top: 5px; /* Ajuste el margen superior */
+}
+
+.checkbox-group input[type="checkbox"] {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    margin-right: 10px;
+    cursor: pointer;
+    position: relative;
+    outline: none;
+    transition: all 0.2s ease;
+}
+
+.checkbox-group input[type="checkbox"]:checked {
+    background-color: #FF9C33; /* Color de fondo cuando está marcado */
+    border-color: #FF9C33;
+}
+
+.checkbox-group input[type="checkbox"]:checked::after {
+    content: '\2713'; /* Símbolo de "tick" (✓) */
+    font-size: 14px;
+    color: #fff;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.checkbox-group label {
+    margin-bottom: 0; /* Elimina el margen inferior para alinear */
+    font-size: 0.95em;
+    color: #333;
+    cursor: pointer;
+}
+
+/* --- Estilos del Botón Enviar --- */
+.boton-enviar {
+    background: linear-gradient(to right, #ff7101, #FF7D18, #FF9B34); /* Degradado de izquierda a derecha */
+    color: white;
+    padding: 15px 25px;
+    border: none;
+    border-radius: 8px;
+    font-size: 15pt;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    margin-top: 20px;
+    width: 30%; /* Ocupa el ancho completo */
+    box-shadow: 0 5px 15px rgba(255, 156, 51, 0.3); /* Sombra para el botón */
+    border-radius: 50px;
+}
+
+.boton-enviar:hover {
+    background-color: #e68e2c; /* Color más oscuro al pasar el mouse */
+    box-shadow: 0 7px 20px rgba(255, 156, 51, 0.4);
+    transform:  scale(1.04); /* Efecto de agrandamiento al pasar el mouse */
+    transition: transform 0.3s ease;
+}
+</style>
+
+
+
+
+
+
+
+
+<section id="Comentarios" class="bloque-comentarios">
+  <div class="icono-titulo">
+      <img src="icono energy.svg" alt="" style="margin-left: 100px;">
+      <p class="titulo-beneficio">Beneficios</p>
+    </div>
+    <h3 class="subtitulo-beneficios" style="left:0vh; text-align: left; margin-left: 100px; font-size: 30pt; margin-bottom: 50px; color: #001E83;">Cambios que notará al tener un panel o terma solar</h3>
+  <div class="comentarios-fila1">
+  <div class="comentario-claro">
+    <img src="perfil.svg" alt="" />
+    <div class="texto-comentario">
+      <h1>Carlos M. Rivas</h1>
+      <p>Muy buena atención. Instalé una terma solar y ahora ahorro bastante en luz.</p>
+    </div>
+  </div>
+  <div class="comentario-oscuro">
+    <img src="perfil.svg" alt="" />
+    <div class="texto-comentario">
+      <h1>Lucía Fernández</h1>
+      <p>Compré un calentador solar para mi piscina y funciona excelente. Ideal para el invierno.</p>
+    </div>
+  </div>
+  <div class="comentario-claro">
+    <img src="perfil.svg" alt="" />
+    <div class="texto-comentario">
+      <h1>Esteban Gutiérrez</h1>
+      <p>El equipo técnico fue puntual y dejó todo funcionando. Mis paneles solares ya están rindiendo.</p>
+    </div>
+  </div>
+  <div class="comentario-oscuro">
+    <img src="perfil.svg" alt="" />
+    <div class="texto-comentario">
+      <h1>Natalia Robles</h1>
+      <p>Excelente servicio y asesoría. Me ayudaron a elegir la mejor opción para mi casa.</p>
+    </div>
+  </div>
+  <div class="comentario-claro">
+    <img src="perfil.svg" alt="" />
+    <div class="texto-comentario">
+      <h1>Javier Aquino</h1>
+      <p>Gracias a los paneles solares, ya no me preocupo por el recibo de luz. ¡Inversión inteligente!</p>
+    </div>
+  </div>
+  <div class="comentario-oscuro">
+    <img src="perfil.svg" alt="" />
+    <div class="texto-comentario">
+      <h1>Roxana del Valle</h1>
+      <p>Muy profesionales. Instalaron mi terma solar en un solo día y quedó perfecta.</p>
+    </div>
+  </div>
+  <div class="comentario-claro">
+    <img src="perfil.svg" alt="" />
+    <div class="texto-comentario">
+      <h1>Pedro L. Castañeda</h1>
+      <p>Servicio rápido y con garantía. Mi familia está feliz con el agua caliente sin gas.</p>
+    </div>
+  </div>
+  <div class="comentario-oscuro">
+    <img src="perfil.svg" alt="" />
+    <div class="texto-comentario">
+      <h1>Vanessa Pinto</h1>
+      <p>Desde que tengo energía solar, mi consumo eléctrico ha bajado muchísimo.</p>
+    </div>
+  </div>
+  <div class="comentario-claro">
+    <img src="perfil.svg" alt="" />
+    <div class="texto-comentario">
+      <h1>Luis Fernando Chávez</h1>
+      <p>Buena atención, buenos productos. Estoy conforme con la instalación del sistema solar.</p>
+    </div>
+  </div>
+  <div class="comentario-oscuro">
+    <img src="perfil.svg" alt="" />
+    <div class="texto-comentario">
+      <h1>Andrea Molina</h1>
+      <p>El calentador solar de piscina es una maravilla. Lo usamos todo el año.</p>
+    </div>
+  </div>
+  <div class="comentario-claro">
+    <img src="perfil.svg" alt="" />
+    <div class="texto-comentario">
+      <h1>Marcos Aliaga</h1>
+      <p>Buen trato desde la cotización hasta la instalación. Muy recomendable.</p>
+    </div>
+  </div>
+  <div class="comentario-oscuro">
+    <img src="perfil.svg" alt="" />
+    <div class="texto-comentario">
+      <h1>Valeria Tello</h1>
+      <p>Me explicaron todo con paciencia y resolvieron mis dudas. Gran equipo.</p>
+    </div>
+  </div>
+</div>
+
+<div class="comentarios-fila2">
+  <div class="comentario-oscuro">
+    <img src="perfil.svg" alt="" />
+    <div class="texto-comentario">
+      <h1>Héctor Palomino</h1>
+      <p>Estoy feliz con la eficiencia de los paneles solares. Funcionan incluso en días nublados.</p>
+    </div>
+  </div>
+  <div class="comentario-claro">
+    <img src="perfil.svg" alt="" />
+    <div class="texto-comentario">
+      <h1>Sandra Merino</h1>
+      <p>Excelente experiencia. Ahora tengo una fuente de energía limpia en casa.</p>
+    </div>
+  </div>
+  <div class="comentario-oscuro">
+    <img src="perfil.svg" alt="" />
+    <div class="texto-comentario">
+      <h1>Bryan Ortega</h1>
+      <p>Todo quedó muy bien instalado. Me siento más independiente energéticamente.</p>
+    </div>
+  </div>
+  <div class="comentario-claro">
+    <img src="perfil.svg" alt="" />
+    <div class="texto-comentario">
+      <h1>Cinthia Guevara</h1>
+      <p>Compré una terma solar y no me arrepiento. Agua caliente todo el día sin gastar luz.</p>
+    </div>
+  </div>
+  <div class="comentario-oscuro">
+    <img src="perfil.svg" alt="" />
+    <div class="texto-comentario">
+      <h1>Renzo Torres</h1>
+      <p>Los técnicos fueron amables y rápidos. El sistema solar quedó perfecto.</p>
+    </div>
+  </div>
+  <div class="comentario-claro">
+    <img src="perfil.svg" alt="" />
+    <div class="texto-comentario">
+      <h1>Karla Espinoza</h1>
+      <p>Buena opción para ahorrar y cuidar el medio ambiente. Estoy muy satisfecha.</p>
+    </div>
+  </div>
+  <div class="comentario-oscuro">
+    <img src="perfil.svg" alt="" />
+    <div class="texto-comentario">
+      <h1>Diego Zúñiga</h1>
+      <p>El calentador solar de piscina fue un acierto. Ya no usamos electricidad para eso.</p>
+    </div>
+  </div>
+  <div class="comentario-claro">
+    <img src="perfil.svg" alt="" />
+    <div class="texto-comentario">
+      <h1>Pamela Jiménez</h1>
+      <p>Los precios son accesibles y la calidad es excelente. Todo 10/10.</p>
+    </div>
+  </div>
+  <div class="comentario-oscuro">
+    <img src="perfil.svg" alt="" />
+    <div class="texto-comentario">
+      <h1>Matías Salazar</h1>
+      <p>Me instalaron paneles en mi casa de campo y funcionan genial. Muy agradecido.</p>
+    </div>
+  </div>
+  <div class="comentario-claro">
+    <img src="perfil.svg" alt="" />
+    <div class="texto-comentario">
+      <h1>Fiorella Ayala</h1>
+      <p>Gracias a la terma solar, ya no dependo del gas. Estoy feliz con el cambio.</p>
+    </div>
+  </div>
+  <div class="comentario-oscuro">
+    <img src="perfil.svg" alt="" />
+    <div class="texto-comentario">
+      <h1>Alonso Rivero</h1>
+      <p>Me recomendaron la empresa y no me arrepiento. Muy buen servicio.</p>
+    </div>
+  </div>
+  <div class="comentario-claro">
+    <img src="perfil.svg" alt="" />
+    <div class="texto-comentario">
+      <h1>Gabriela Ramos</h1>
+      <p>Mi factura de luz bajó desde el primer mes. ¡Vale totalmente la pena!</p>
+    </div>
+  </div>
+</div>
+
+</section>
+<style>
+.bloque-comentarios {
+  width: 100%;
+  overflow: hidden;
+  padding: 20px 0;
+  box-sizing: border-box;
+  position: relative;
+  z-index: 1;
+}
+/* Ensure the pseudo-elements cover the full height and correct positioning*/
+.bloque-comentarios::before,
+.bloque-comentarios::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  height: 100%;
+  width: 100px;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.bloque-comentarios::before {
+  left: 0;
+  background: linear-gradient(to right, rgba(255, 255, 255, 1), rgba(255, 255, 255, 0));
+}
+
+.bloque-comentarios::after {
+  right: 0;
+  background: linear-gradient(to left, rgba(255, 255, 255, 1), rgba(255, 255, 255, 0));
+}
+
+.comentarios-fila1 img,
+.comentarios-fila2 img{
+  width:60px;
+  height: 60px;
+  /*centrar verticalmente*/
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
+  margin-right: 20px;
+}
+
+
+
+.comentarios-fila1,
+.comentarios-fila2 {
+  display: flex;
+  gap: 15px;
+  margin-top: 20px;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+  
+}
+
+
+.comentarios-fila1 {
+  animation-name: scroll-right;
+  animation-duration: 20s;
+}
+.comentarios-fila2 {
+  animation-name: scroll-left;
+  animation-duration: 20s;
+}
+
+@keyframes scroll-right {
+  0% {
+    transform: translateX(-50%);
+  }
+  100% {
+    transform: translateX(0%);
+  }
+}
+@keyframes scroll-left {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+.comentario-claro,
+.comentario-oscuro {
+  flex-shrink: 0;
+  padding: 20px;
+  border-radius: 20px;
+  width: 400px;
+  height: 110px;
+  box-sizing: border-box;
+  display: flex;
+  align-items: flex-start;
+  text-align: left;
+}
+.comentario-claro {
+  background-color: #143dc5;
+}
+.comentario-oscuro {
+  background-color: #001e83;
+}
+.comentario-claro h1,
+.comentario-oscuro h1 {
+  color: #fff;
+  white-space: nowrap
+}
+.comentario-claro p,
+.comentario-oscuro p {
+  color: #fff;
+  font-size: 9pt !important;
+}
+
+
+
+.texto-comentario{
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: center !important;
+  height: auto !important;
+  overflow-wrap: break-word !important;
+  width: 400px !important;
+  height: auto !important;
+  box-sizing: border-box !important;
+  flex-direction: column !important;
+}
+
+.container {
+  max-width: 800px;
+  margin: 20px auto;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+h1, p {
+  transition: color 0.3s ease;
+}
+
+    
+</style>
+
+
+
+
+
+
+
+
+<br><br><br><br>
+<footer>
+    <div class="social-bar" id="footer">
+      <div class="bloque1">
+        <a href="index.html">
+          <img src="logo blanco.svg" alt="Logo Blanco" class="logo-blanco">
+        </a>
+        <div class="iconos-redes">
+          <a href="https://www.facebook.com/share/18xE3tDNQ9/" target="_blank">
+            <img id="facebook-icon" class="item" src="facebook 2.svg" alt="facebook"/>
+          </a>
+          <a href="https://www.instagram.com/solarsurperu/" target="_blank">
+            <img id="instagram-icon" class="item" src="instagram 2.svg" alt="instagram"/>
+          </a>
+          <a href="https://www.tiktok.com/@solarsur" target="_blank">
+            <img id="tiktok-icon" class="item" src="tik-tok.svg" alt="tiktok"/>
+          </a>
+        </div>
+      </div>
+
+      <div class="bloque2">
+        <h1>Contactanos en  solarsurperu1@gmail.com</h1><br>
+        <p>Soluciones solares confiables y accesibles para todo tipo de necesidad: residencias, comercios, sistemas rurales y aplicaciones especiales. Trabajamos con equipos certificados, instalación garantizada y soporte técnico especializado.</p> <br>
+<div class="correo-ubicacion">
+  <div class="correo-item">
+    <img src="correo.svg" alt="" style="width:30px; height: 30px;">
+    <p>solarsurperu1@gmail.com</p>
+  </div>
+  <div class="ubicacion-item">
+    <img src="ubicacion.svg" alt="" style="width: 30px; height: 30px;">
+    <p>Calle Arica N°15 - Tacna</p>
+  </div>
+</div>
+      </div>
+
+      <div class="bloque3">
+        <h1>Contáctanos:</h1><br>
+        <a><img src="telefono.png" style="height: 30px; width: 30px;">(052) 243863</a>
+        <a href="https://wa.me/51908823893" target="_blank"><img src="icono whatsapp blanco.svg" alt="" style="height: 30px; width: 30px;">908 823 893</a>
+        <a href="https://wa.me/51952674744" target="_blank"><img src="icono whatsapp blanco.svg" alt="" style="height: 30px; width: 30px;">952 674 744</a>
+        
+      </div>
+    </div>
+<style>
+  .bloque2 p{
+    text-align: justify;
+  }
+  
+  .bloque3 a:hover{
+    transform:  scale(1.05);
+    transition: transform 0.2s ease;
+
+  }
+</style>
+
+
+
+
+
+
+
+
+
+    <style>
+    .social-bar {
+    background: rgba(1, 36, 124);
+    padding: 40px 150px;
+    text-align: left;
+    width: 100%;
+    height: 335px;
+    bottom: auto; /* Cambiado de 0 a auto */
+    font-size: 10px;
+    font-family: 'Inter', sans-serif;
+    color: #f0f0f0;
+    display: flex;
+    justify-content: center;
+    gap: 50px;
+  }
+
+/* Estilo de los enlaces de redes sociales */
+  .social-bar a {
+      margin: 0 5px;
+      text-decoration: none;
+  }
+
+  .bloque1 {
+    display: flex; /* Convierte el contenedor en un flex container */
+    flex-direction: column; /* Apila los elementos verticalmente */
+
+  }
+
+  .logo-blanco {
+    margin-bottom: 10px; /* Agrega espacio debajo del logo para separarlo de los íconos */
+    width: 250px;
+    margin-top: 20px;
+  }
+
+  .iconos-redes {
+    display: flex; /* Convierte este contenedor en un flex container para los íconos */
+    justify-content: center; /* Centra los íconos horizontalmente */
+    margin-top: 43px;
+    justify-content: left;
+  }
+
+  .iconos-redes img:hover {
+    cursor: pointer;  }
+  
+
+  .iconos-redes img {
+    height: 30px;
+    width: 30px;
+    margin-top: 0;
+  }
+
+  .correo-ubicacion{
+    display: flex;
+    gap: 10px;
+    font-size: 18pt;
+    margin-top: 25px;
+  }
+
+  .bloque3 {
+    display: flex; /* Habilita Flexbox para el contenedor */
+    flex-direction: column; /* Apila los elementos hijos verticalmente */
+    justify-content: left;
+
+  }
+
+  .bloque3 h1 {
+    margin-bottom: 5px; /* Ajusta el margen inferior del título si lo necesitas */
+  }
+
+  .bloque3 a {
+    display: flex; /* Habilita Flexbox también para cada enlace */
+    align-items: center; /* Alinea el icono y el texto verticalmente */
+    text-decoration: none; /* Opcional: quita el subrayado de los enlaces */
+    color: inherit; /* Opcional: hereda el color del texto de su padre */
+    margin-bottom: 15px; /* Espacio entre cada enlace (ajusta según necesites) */
+    background-color: #0075C6; /* Color de fondo del botón */
+    padding: 10px; /* Espacio interno del botón */
+    border-radius: 35px; /* Borde redondeado del botón */
+    transition: background-color 0.3s ease; /* Transición de color de fondo */
+    width: 250px;
+    height: 50px;
+    text-align: center;
+    font-size: 15pt;
+    color: #fff;
+    justify-content: center;
+
+  }
+  
+
+  .bloque3 a img {
+    margin-right: 12px; /* Espacio entre el icono de WhatsApp y el número */
+  }
+    </style>
+
+
+
+
+
+
+<!-- CHATBOT -->
+
+
+
+    <div id="chat-widget" class="chat-widget">
+        <button id="chat-button">
+            
+            <img src="CHATBOT.svg" alt="Chat"  style="width: 100%;  object-fit: cover;  ">
+        </button>   
+        <div id="chat-container">
+            <div id="chat-messages">
+                <!-- Aquí se mostrarán los mensajes -->
+            </div>
+            <div id="input-container">
+                <input type="text" id="user-input" placeholder="En qué te puedo ayudar...">
+                <button id="send-btn">Enviar</button>
+            </div>
+        </div>
+    </div>
+    
+<script src="chatbot.js"></script>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</footer>
+
+
+<style>
+#chat-container,
+#chat-messages {
+  overflow-x: hidden !important;
+  max-width: 100% !important;
+}
+
+
+#chat-container {
+    transform: scale(0.7);
+    opacity: 0;
+    transition: transform 0.25s cubic-bezier(.4,2,.6,1), opacity 0.2s;
+    pointer-events: none;
+}
+
+#chat-container.visible {
+    transform: scale(1);
+    opacity: 1;
+    pointer-events: auto;
+    display: flex !important;
+}
+.message.chatbot, .chatbot {
+  width: 100% !important;
+  max-width: 100% !important;
+  overflow-x: hidden !important;
+  white-space: normal !important;
+}
+.message.chatbot, .chatbot {
+  background: transparent !important;
+  background-color: transparent !important;
+}
+
+/* Cambia el fondo y ancho de las respuestas del chatbot */
+.message.chatbot, .chatbot {
+  background: transparent !important; /* O usa #fff si prefieres blanco */
+  background-color: transparent !important; /* O #fff */
+  color: #444;
+  max-width: 100% !important;
+  width: 100% !important;
+  margin-left: 15px !important;
+  margin-right: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  padding: 4px 0 !important;
+  top: 0 !important;
+  margin-top: 2px !important;
+  
+
+
+}
+.message.chatbot ul, .message.chatbot li {
+  margin: 0;
+  padding: 0 0 0 18px;
+  line-height: 1.2 !important;
+}
+
+#chat-widget {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    z-index: 1000;
+        
+}
+#chat-button {
+    width: 60px;
+    height: 60px;
+    background-color: rgba(1, 36, 124, 0);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    font-size: 24px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Inter', sans-serif;
+}
+#chat-container {
+    display: none;
+    position: fixed;
+    bottom: 90px;
+    left: 20px;
+    width: 600px;
+    max-height: 400px;
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    flex-direction: column;
+    font-family: 'Inter', sans-serif;
+}
+#chat-messages {
+    flex: 1;
+    padding: 10px;
+    overflow-y: auto;
+    font-family: 'Inter', sans-serif;
+}
+.message {
+    margin: 10px 0;
+    padding: 10px;
+    border-radius: 5px;
+    font-family: 'Inter', sans-serif;
+    /*pegado a la derecha*/
+    margin-right: 10px;
+}
+.message {
+    word-break: break-word;
+    overflow-wrap: break-word;
+    white-space: pre-line;
+    max-width: 100%;
+}
+ 
+#input-container {
+    display: flex;
+    padding: 10px;
+    border-top: 1px solid #ddd;
+}
+#user-input {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+#send-btn {
+    padding: 10px;
+    background-color: #1b6dc5;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-left: 10px;
+}
+#send-btn:hover {
+    background-color: #f6f7f8;
+    color: #1b6dc5;
+}
+
+.user {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    background-color: #d1e7dd;
+    color: #000;
+    text-align: right;
+    align-self: flex-end;
+    max-width: 60%;
+    margin-left: auto;
+    margin-right: 0;
+    width: auto;
+    border-radius: 8px;
+    padding-left: 10px;
+}
+
+.icono-usuario-chatbot {
+    width: 32px;
+    height: 32px;
+    margin-left: 10px;
+}
+.message-wrapper.user-wrapper {
+    display: flex;
+    align-items: self-start;
+    justify-content: flex-end;
+    margin: 2px 0 !important;
+}
+
+.message.user {
+    background-color: #d1e7dd;
+    color: #000;
+    text-align: right;
+    align-self: flex-end;
+    max-width: 60%;
+    margin-left: auto;
+    margin-right: 0;
+    border-radius: 8px;
+    padding: 10px;
+    width: auto;
+    box-sizing: border-box;
+    display: block;
+}
+
+.icono-usuario-chatbot {
+    width: 32px;
+    height: 32px;
+    margin-left: 10px;
+    flex-shrink: 0;
+}
+
+.chatbot {
+    background-color: #f6f7f8;
+    color: #444;
+    text-align: left;
+    align-self: flex-start;
+    max-width: 100%;
+    margin-right: auto;
+    margin-left: 0;
+    width: 100%;
+    display: block;
+}
+.chatbot img {
+    border-radius: 0; /* Elimina el borde redondeado */
+    background: none; /* Elimina cualquier fondo detrás de la imagen */
+    box-shadow: none; /* Elimina cualquier sombra que pueda parecer ucírculo */
+}
+
+
+.chat-icon { /* Reemplaza .contenedor-icono con el selector real de tu elemento */
+    background-color: transparent !important; /* Hace el fondo transparente */
+} 
+#chat-button img {
+    transition: transform 0.1s;
+}
+
+#chat-button:hover img {
+    animation: vibrar-cabeza 0.8s linear;
+}
+
+@keyframes vibrar-cabeza {
+  0% { transform: rotate(0deg);}
+  10% { transform: rotate(18deg);}
+  20% { transform: rotate(-18deg);}
+  30% { transform: rotate(14deg);}
+  40% { transform: rotate(-14deg);}
+  50% { transform: rotate(10deg);}
+  60% { transform: rotate(-10deg);}
+  70% { transform: rotate(6deg);}
+  80% { transform: rotate(-6deg);}
+  90% { transform: rotate(2deg);}
+  100% { transform: rotate(0deg);}
+} 
+</style>
+
+</main> 
+</body>
+<script>
+window.addEventListener('DOMContentLoaded', function() {
+    if (window.location.search.includes('enviado=1')) {
+        document.getElementById('modal-confirmacion').style.display = 'flex';
+    }
+    document.getElementById('btn-aceptar-modal').addEventListener('click', function() {
+        document.getElementById('modal-confirmacion').style.display = 'none';
+        // Limpia el parámetro de la URL al cerrar el modal
+        if (window.history.replaceState) {
+            const url = window.location.origin + window.location.pathname;
+            window.history.replaceState({}, document.title, url);
+        }
+    });
+});
+</script>
+</html>
