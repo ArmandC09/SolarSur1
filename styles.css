@@ -1,0 +1,1386 @@
+html {
+    scroll-behavior: smooth; /* Desplazamiento suave */
+}
+
+/*Color y tipo de letra al logo principal*/
+.logo { 
+    margin: 10px;
+    margin-top: 30px;
+    margin-bottom: 20px;
+    margin-left: 150px;
+}
+
+
+
+/*Quitarle los bordes y subrayado al logo*/
+.logo_link{ 
+    text-decoration: none; 
+    border: none; 
+}
+
+/*Tipo de letra, color de fondo, color de letra, y el espacio de separacion con el margen de la pagina*/
+body{
+    margin: 0; 
+    padding: 0;
+    line-height: 1.6; /* Espaciado entre líneas */
+    font-size: 16px; /* Tamaño de fuente base */
+    overflow-x: hidden; /* Desactiva el desplazamiento horizontal */
+}
+
+header {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    z-index: 100; /* Asegura que la barra esté encima de la imagen */
+    background-color: rgb(255, 255, 255); /* Fondo negro con 50% de opacidad */
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease; /* Transición suave para la sombra */
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2); /* Sombra suave debajo del header */
+}
+
+header.scrolled {
+    background: rgba(1, 36, 124); 
+}
+
+
+
+header button {
+    background-color: transparent; /* Fondo transparente */
+    color: rgb(0, 0, 0); /* Color del texto */
+    border: none; /* Elimina el borde */
+    padding: 10px 20px; /* Espaciado interno */
+    margin: 5px; /* Espaciado externo */
+    border-radius: 5px; /* Bordes redondeados opcionales */
+    cursor: pointer; /* Cambia el cursor al pasar sobre el botón */
+    transition: color 0.3s ease, background-color  0.3s ease; /* Transición suave */
+    margin-top: 20px;
+    font-size: 13pt; /* Aumenta el tamaño de la letra */
+    font-family: 'Inter', sans-serif;
+    
+}
+
+header button:hover {
+    background-color: rgba(129, 129, 129, 0.2); /* Fondo semitransparente al pasar el cursor */
+    color: rgba(1, 36, 124); ;
+}
+
+
+.tamaño-logo {
+    width: 150px; /* Ajusta el tamaño según sea necesario */
+    height: auto; /* Mantiene la proporción del logo */
+    margin-left: 20px;
+}
+
+
+
+.boton {
+    display: flex; /* Alinea los botones en fila */
+    justify-content: center; /* Centra los botones horizontalmente */
+    gap: 20px; /* Espaciado entre los botones */
+    margin-top: 10px; /* Espacio entre el texto y los botones */
+    width: 40px;
+}
+
+
+
+.bloque_texto {
+    margin-top: 700px; /* Empuja el bloque hacia abajo, igual a la altura de imagen_body */
+    padding: 0px; /* Espaciado interno */
+    background-color: #ffffff; /* Fondo claro para diferenciarlo */
+    color: #333; /* Color del texto */
+    text-align: center; /* Centra el texto */
+    font-family: 'Inter', sans-serif;
+    width: 100%; /* Asegura que no exceda el ancho de la pantalla */
+}
+
+
+
+.bloque_texto h2 {
+    font-size: 1.7rem; /* Tamaño del título */
+    margin-bottom: 10px;
+    font-family: 'Inter', sans-serif;
+}
+
+.bloque_texto p {
+    font-size: 1.2rem; /* Tamaño del párrafo */
+    line-height: 1.6; /* Espaciado entre líneas */
+}
+
+form {
+    margin-right: 30px; /* Ajusta el espacio desde el borde derecho */
+    display: flex; /* Asegura que los botones estén alineados horizontalmente */
+    justify-content: flex-end; /* Alinea los botones hacia la derecha */
+    font-family: 'Inter', sans-serif;
+}
+
+.informacion {
+    display: flex; /* Activa el diseño en fila */
+    align-items: center; /* Alinea verticalmente el contenido */
+    gap: 20px; /* Espaciado entre el texto y la imagen */
+    padding: 20px;
+    margin-top: 5px;
+}
+
+
+
+
+.menu-toggle{
+    display: none; /* Oculta el botón de menú por defecto */
+}
+.mobile-menu{
+    display: none;
+}
+
+/* Menú lateral oculto por defecto */
+.mobile-menu {
+    position: fixed;
+    top: 0;
+    left: -250px; /* Oculta el menú fuera de la pantalla */
+    width: 250px;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.9);
+    color: white;
+    padding: 20px;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.5);
+    transition: left 0.3s ease; /* Transición suave para mostrar/ocultar */
+    z-index: 1000;
+}
+
+.mobile-menu ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.mobile-menu li {
+    margin: 15px 0;
+}
+
+.mobile-menu a {
+    text-decoration: none;
+    color: white;
+    font-size: 18px;
+    font-family: 'Inter', sans-serif;
+    display: block;
+    transition: color 0.3s ease;
+}
+
+.mobile-menu a:hover {
+    color: #1b6dc5;
+}
+
+/* Menú lateral activo */
+.mobile-menu.active {
+    left: 0; /* Mueve el menú dentro de la pantalla */
+}
+
+/* Asegúrate de que no haya márgenes ni desbordamientos */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+}
+
+/* Ajusta el ancho de .bloque-mapa */
+.bloque-mapa {
+    background: rgba(1, 36, 124);
+    width: 100%; /* Cambia de 100vw a 100% */
+    padding: 20px 0; /* Espaciado interno superior e inferior */
+    text-align: center; /* Centra el contenido horizontalmente */
+    color: white; /* Color del texto */
+    box-sizing: border-box; /* Asegura que el padding no afecte el ancho total */
+    font-family: 'Inter', sans-serif;
+}
+
+/* Corrige el ancho de .bloque_texto */
+.bloque_texto {
+    width: 100%; /* Asegura que no exceda el ancho de la pantalla */
+    font-family: 'Inter', sans-serif;
+}
+
+/* Asegúrate de que .imagen_body no cause desbordamiento */
+.imagen_body {
+    width: 100%; /* Asegura que ocupe todo el ancho */
+    height: 100vh; /* Ocupa toda la altura de la ventana */
+    overflow: hidden; /* Oculta cualquier desbordamiento */
+    background-size: cover; /* Cubre toda la pantalla */
+    background-position: center; /* Centra la imagen */
+    font-family: 'Inter', sans-serif;
+}
+
+/* Ajusta el ancho de .carousel-wrapper y .social-bar */
+.carousel-wrapper, .social-bar {
+    width: 100%; /* Asegura que ocupen todo el ancho */
+    overflow: hidden; /* Oculta cualquier desbordamiento */
+    font-family: 'Inter', sans-serif;
+}
+
+.bloque-mapa {
+    background-color: rgb(1, 36, 124); /* Fondo azul */
+    padding: 20px; /* Espaciado interno */
+    color: white; /* Color del texto */
+    box-sizing: border-box; /* Asegura que el padding no afecte el ancho total */
+    text-align: center; /* Centra el contenido dentro del bloque */
+}
+
+.contenedor-mapa {
+    display: flex; /* Activa flexbox para alinear los elementos */
+    align-items: center; /* Centra verticalmente el texto y el mapa */
+    justify-content: center; /* Centra horizontalmente el texto y el mapa */
+    flex-wrap: wrap; /* Permite que los elementos se ajusten en pantallas pequeñas */
+    gap: 100px; /* Espaciado entre el texto y el mapa */
+}
+
+.texto-mapa {
+    max-width: 300px; /* Limita el ancho del texto */
+    font-size: 1rem; /* Tamaño del texto */
+    line-height: 1.5; /* Espaciado entre líneas */
+    font-family: 'Inter', sans-serif;
+}
+
+iframe {
+    flex: 1; /* Permite que el mapa ocupe el espacio restante */
+    max-width: 600px; /* Ancho máximo del mapa */
+    height: 450px; /* Altura del mapa */
+    border: 0; /* Elimina el borde del iframe */
+}
+.correo-ubicacion {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    gap: 40px !important; /* Espacio entre los pares */
+    justify-content: flex-start !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+  }
+  .correo-ubicacion > div {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    gap: 8px !important;
+  }
+
+/* ==================== ESTILOS RESPONSIVOS PARA MÓVIL ==================== */
+
+
+/* Ajustes generales */
+@media (max-width: 900px) {
+
+  html, body {
+    width: 100vw !important;
+    min-width: 0 !important;
+    overflow-x: hidden !important;
+    font-size: 15px !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+  main{
+    padding: 0;
+  }
+ 
+  /* HEADER y LOGO */
+  header {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    padding: 10px 0 !important;
+    min-height: 60px !important;
+    position: fixed !important;
+    left: 0 !important;
+    top: 0 !important;
+    z-index: 1000 !important;
+  }
+  .logo {
+    margin: 0 auto !important;
+    text-align: center !important;
+    margin-left: 10px !important;
+
+  }
+  .tamaño-logo {
+    width: 120px !important;
+    margin-left: 0 !important;
+  }
+  
+  .boton-whatsapp{
+    width: auto !important;
+    font-size: 10pt !important;
+  }
+    .boton-whatsapp2{
+    width: 55% !important;
+    font-size: 10pt !important;
+    justify-content: center !important;
+margin-left: 23% !important;
+  }
+  .boton-whatsapp img{
+    width: 20px !important;
+    height: 20px !important;
+  }
+   .boton-whatsapp2 img{
+    width: 20px !important;
+    height: 20px !important;
+  }
+
+  /* FORMULARIO Y MENÚ HAMBURGUESA */
+  .formulario {
+    display: none !important;
+  }
+  .contenedor_menu {
+    display: block !important;
+    position: fixed !important;
+    top: 15px !important;
+    right: 15px !important;
+    z-index: 1200 !important;
+  }
+
+  /* HERO */
+  .imagen_body {
+    height: auto !important;
+    min-height: 200px !important;
+    margin-top: 60px !important;
+    padding: 0 !important;
+    width: auto !important;
+  }
+  .contenedor-principal {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    gap: 20px !important;
+    min-height: unset !important;
+    width: 100vw !important;
+    margin: 0 !important;
+  }
+
+  .texto_central {
+    margin: 0 !important;
+    width: 95vw !important;
+    text-align: center !important;
+    padding: 0 10px !important;
+    margin-left: 0 !important;
+    margin-top: 30px !important;
+  }
+  .contenedor-imagen {
+    width: 100vw !important;
+    height: auto !important;
+    margin: 0 auto !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+  }
+  .contenedor-imagen img {
+    width: 90vw !important;
+    height: auto !important;
+    margin: 0 !important;
+    max-width: 350px !important;
+    max-height: 250px !important;
+  }
+
+  /* BLOQUE TEXTO Y CARACTERÍSTICAS */
+  .bloque_texto {
+    margin-top: 0 !important;
+    padding: 0px !important;
+    position: static !important;
+    text-align: center !important;
+  }
+  .caracteristicas {
+    height: auto !important; /* o el mínimo que desees */
+    padding: 10 0 !important;
+    top: 0 !important;
+}
+
+  .caracteristicas-container {
+    flex-direction: column !important;
+    gap: 10px !important;
+    align-items: center !important;
+    margin-bottom: 45px !important;
+  }
+  .caracteristica {
+    width: auto !important;
+    padding: 10px 0 !important;
+    transform: none !important;
+    font-size: 8pt !important;
+    height: 22.5vh !important;
+  }
+
+
+  /* INFORMACIÓN */
+  .informacion {
+    flex-direction: column !important;
+    padding: 20px 10px !important;
+    height: auto !important;
+    gap: 10px !important;
+  }
+  .texto-informacion, .informacion .imagen img {
+    width: 90vw !important;
+    height: auto !important;
+    padding: 20px !important;
+    margin: 0 auto !important;
+  }
+  .imagen img{
+    border-radius: 30px !important;
+  }
+
+
+  /* BLOQUE COMPLEMENTO */
+  .bloque-complemento {
+    padding: 10px !important;
+  }
+  .texto {
+    flex-direction: column !important;
+    gap: 10px !important;
+    text-align: center !important;
+    margin: 0 !important;
+  }
+  .texto p, .texto h2 {
+    width: 100% !important;
+    font-size: 1.1em !important;
+  }
+
+  /* SECCIÓN PRODUCTOS (TERMA) */
+  .terma {
+    flex-direction: column !important;
+    padding: 10px !important;
+    max-width: 100vw !important;
+    min-width: 0 !important;
+    margin: 0 !important;
+  }
+  .animacion-contenedor {
+    display: none !important;
+  }
+  .imagen-con-texto {
+    flex-direction: column !important;
+    margin: 0 !important;
+    gap: 10px !important;
+    align-items: center !important;
+    width: 100vw !important;
+  }
+  .imagen-contenedor img {
+    max-width: 90vw !important;
+    height: auto !important;
+  }
+  
+  .texto-al-lado {
+    max-width: 95vw !important;
+    text-align: center !important;
+    padding: 0 10px !important;
+  }
+  .caracteristicas-container2 {
+    flex-direction: column !important;
+    gap: 10px !important;
+    align-items: center !important;
+    margin-bottom: 20px !important;
+    top:0 !important;
+    margin-top: 5px !important;
+  }
+  .caracteristica2 {
+    width: 50vh !important;
+    padding: 10px 0 !important;
+    transform: none !important;
+    font-size: 8pt !important;
+    height: 20vh !important;
+  }
+  .numero{
+    font-size: 2.0em !important;
+  }
+.terma{
+    display: flex;
+  align-items: center;
+  padding: 40px;
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
+  position: relative;
+  justify-content: center;
+  box-sizing: border-box;
+}
+
+  /* PANEL SOLAR */
+
+.bloque-invisible{
+  justify-content: center !important;
+}
+  .seccion-paneles-solares {
+    flex-direction: column !important;
+    padding: 10px !important;
+    max-width: 100vw !important;
+    margin: 0 !important;
+    gap: 10px !important;
+    margin-top: 25px !important;  
+  }
+  .info-paneles {
+    padding: 0 !important;
+    text-align: center !important;
+  }
+  .imagen-paneles-container {
+    justify-content: center !important;
+    margin: 0 !important;
+  }
+  .imagen-paneles-muy-grande {
+    max-width: 90vw !important;
+    height: auto !important;
+  }
+
+  /* PROCESO FOTOVOLTAICO */
+  .proceso-fotovoltaico-completo {
+    padding: 10px !important;
+  }
+  .titulo-seccion {
+    width: 95vw !important;
+    padding: 10px !important;
+    font-size: 1.2em !important;
+  }
+  .contenedor-pasos {
+    flex-direction: column !important;
+    align-items: center !important;
+    max-width: 100vw !important;
+  }
+  .paso {
+    width: 95vw !important;
+    min-width: 0 !important;
+    margin: 10px 0 !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    text-align: center !important;
+  }
+  .icono-contenedor {
+    margin: 0 0 10px 0 !important;
+  }
+
+  /* BENEFICIOS */
+  .beneficios-paneles-solares {
+    padding: 10px !important;
+  }
+  .contenedor-beneficios {
+    max-width: 100vw !important;
+    padding: 0 !important;
+  }
+  .contenedor-cards {
+    flex-direction: column !important;
+    gap: 10px !important;
+    align-items: center !important;
+  }
+  .card-beneficio, .card-beneficio1 {
+    min-width: 0 !important;
+    width: 90vw !important;
+    height: auto !important;
+    margin: 0 auto !important;
+  }
+
+  /* FORMULARIO */
+  .contenedor-formulario {
+    flex-direction: column !important;
+    padding: 10px !important;
+    gap: 20px !important;
+    max-width: 100vw !important;
+  }
+  .imagen-formulario, .bloque-formulario-general {
+    width: 100vw !important;
+    margin: 0 !important;
+    padding: 10px !important;
+    border-radius: 15px !important;
+  }
+  .bloque-formulario-general {
+    width: 94.5vw !important;
+    margin-bottom: 20px !important;
+    margin-top: 0 !important;
+    font-size: 1.0em !important;
+  }
+
+  .bloque-formulario-general label {
+    font-size: 1.0em !important;
+  }
+  .imagen-formulario img {
+    display: none !important;   
+  }
+  .boton-enviar{
+    width: 100% !important;
+    margin-left: 0px !important;
+    justify-content: center !important;
+
+  }
+
+  /* COMENTARIOS */
+
+.bloque-comentarios::before {
+display: none;
+}
+.bloque-comentarios::after {
+display: none;
+}
+
+  .bloque-comentarios .icono-titulo img {
+    margin-left: 8px !important;
+  }
+.bloque-comentarios .subtitulo-beneficios{
+    justify-content: center !important;
+    text-align: center !important;
+    left: 20px !important;
+    right: 20px !important;
+    margin: 0 30px !important;
+
+  }
+
+  .bloque-comentarios {
+    padding: 10px 0 !important;
+  }
+  .comentarios-fila1, .comentarios-fila2 {
+    gap: 10px !important;
+    display: flex !important;
+    align-items: center !important;
+  }
+  .comentario-claro, .comentario-oscuro {
+    width: 50vw !important;
+    height: auto !important;
+    padding: 10px !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    text-align: left !important;
+  }
+    .comentario-claro p, .comentario-oscuro p {
+    font-size: 5pt !important;
+  }
+
+      .comentario-claro h1, .comentario-oscuro h1 {
+    font-size: 10pt !important;
+  }
+
+  .comentario-claro img, .comentario-oscuro img {
+    margin-right: 10px !important;
+    margin-top: 30px !important;
+    width: 35px !important;
+    height: 35px !important;
+  }
+
+  .texto-comentario {
+    align-items: flex-start !important;
+  }
+
+  /* FOOTER */
+
+  .social-bar {
+    flex-direction: column !important;
+    align-items: center !important;
+    padding: 20px 10px !important;
+    height: auto !important;
+    gap: 20px !important;
+    font-size: 12px !important;
+  }
+  .bloque1, .bloque2, .bloque3 {
+    width: 100vw !important;
+    align-items: center !important;
+    text-align: center !important;
+    margin: 0px !important;
+    padding: 10px !important;
+  }
+
+  .bloque1 {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 20px !important;
+    width: 100vw !important;
+    text-align: left !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+  .logo-blanco {
+    margin: 0 !important;
+    width: 80px !important;
+  }
+  .iconos-redes {
+    margin: 0 !important;
+    justify-content: flex-start !important;
+  }
+
+  .logo-blanco {
+    width: 120px !important;
+    margin: 10px auto !important;
+  }
+  .iconos-redes {
+    justify-content: center !important;
+    margin-top: 10px !important;
+  }
+  .correo-ubicacion {
+    align-items: center !important;
+    justify-content: center !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    width: max-content !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 10px !important;
+  }
+  .correo-ubicacion > div {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    gap: 8px !important;
+  }
+
+  .correo-ubicacion p {
+    margin: 0 !important;
+    padding: 0 !important;
+    font-size: 0.5em !important;
+  }
+
+
+  .bloque3 a {
+    width: 50vw !important;
+    font-size: 1em !important;
+    height: auto !important;
+    padding: 10px !important;
+    margin-bottom: 10px !important;
+  }
+
+  /* CHATBOT */
+  #chat-widget {
+    display: none !important; /* Oculta el chatbot en móvil */
+  }
+
+
+  /* Ajustes para textos grandes */
+  h1, h2, h3, .titulo-paneles, .subtitulo-beneficios {
+    font-size: 1.2em !important;
+  }
+  p{
+    font-size: 0.9em !important;
+  } 
+  .bloque-formulario-general {
+    margin-left: auto !important;
+    margin-right: auto !important;
+    width: 95vw !important;      /* O usa 100% si prefieres */
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+    .bloque-invisible {
+    margin-left: auto !important;
+    margin-right: auto !important;
+    width: 95vw !important;      /* O usa 100% si prefieres */
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@media (max-width: 900px) {
+
+  main {
+    padding: 0 !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  /* HEADER y LOGO */
+  header {
+    width: 100% !important;
+    box-sizing: border-box !important;
+    left: 0 !important;
+    right: 0 !important;
+  }
+
+  .logo, .tamaño-logo {
+    max-width: 100% !important;
+    width: auto !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+  }
+
+  /* HERO */
+  .imagen_body,
+  .contenedor-principal,
+  .contenedor-imagen,
+  .imagen-con-texto,
+  .texto-al-lado,
+  .caracteristicas-container,
+  .caracteristicas-container2,
+  .informacion,
+  .texto-informacion,
+  .imagen img,
+  .bloque_texto,
+  .seccion-paneles-solares,
+  .contenedor-beneficios,
+  .contenedor-cards,
+  .card-beneficio,
+  .card-beneficio1,
+  .contenedor-formulario,
+  .imagen-formulario,
+  .bloque-formulario-general,
+  .proceso-fotovoltaico-completo,
+  .titulo-seccion,
+  .contenedor-pasos,
+  .paso,
+  .beneficios-paneles-solares,
+  .bloque-complemento,
+  .texto{
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    box-sizing: border-box !important;
+    overflow-x: hidden !important;
+  }
+
+}
+
+
+
+
+
+
+
+
+
+
+@media (max-width: 1200px) {
+
+  html, body {
+    width: 100vw !important;
+    min-width: 0 !important;
+    overflow-x: hidden !important;
+    font-size: 15px !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+  main{
+    padding: 0;
+  }
+  
+ 
+  /* HEADER y LOGO */
+  header {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    padding: 10px 0 !important;
+    min-height: 60px !important;
+    position: fixed !important;
+    left: 0 !important;
+    top: 0 !important;
+    z-index: 1000 !important;
+  }
+  .logo {
+    margin: 0 auto !important;
+    text-align: center !important;
+    margin-left: 10px !important;
+
+  }
+  .tamaño-logo {
+    width: 120px !important;
+    margin-left: 0 !important;
+  }
+  
+  .boton-whatsapp{
+    width: auto !important;
+    font-size: 10pt !important;
+  }
+    .boton-whatsapp2{
+    width: 55% !important;
+    font-size: 10pt !important;
+    justify-content: center !important;
+margin-left: 23% !important;
+  }
+  .boton-whatsapp img{
+    width: 20px !important;
+    height: 20px !important;
+  }
+   .boton-whatsapp2 img{
+    width: 20px !important;
+    height: 20px !important;
+  }
+
+  /* FORMULARIO Y MENÚ HAMBURGUESA */
+  .formulario {
+    display: none !important;
+  }
+  .contenedor_menu {
+    display: block !important;
+    position: fixed !important;
+    top: 15px !important;
+    right: 15px !important;
+    z-index: 1200 !important;
+  }
+
+  /* HERO */
+  .imagen_body {
+    height: auto !important;
+    min-height: 550px !important;
+    margin-top: 60px !important;
+    padding: 0 !important;
+    width: auto !important;
+  }
+  .contenedor-principal {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    gap: 20px !important;
+    min-height: unset !important;
+    width: 100vw !important;
+    margin: 0 !important;
+    /*centrar verticalmente*/
+    padding-top: 60px !important; /* Espacio para el header fijo */
+  }
+
+  .texto_central {
+    margin: 0 !important;
+    width: 95vw !important;
+    text-align: center !important;
+    padding: 0 10px !important;
+    margin-left: 0 !important;
+    margin-top: 30px !important;
+  }
+  .contenedor-imagen {
+    width: 100vw !important;
+    height: auto !important;
+    margin: 0 auto !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+  }
+  .contenedor-imagen img {
+    width: 90vw !important;
+    height: auto !important;
+    margin: 0 !important;
+    max-width: 350px !important;
+    max-height: 250px !important;
+  }
+
+  /* BLOQUE TEXTO Y CARACTERÍSTICAS */
+  .bloque_texto {
+    margin-top: 0 !important;
+    padding: 0px !important;
+    position: static !important;
+    text-align: center !important;
+  }
+.caracteristicas {
+    height: auto !important;
+    padding: 1px 5px !important; /* 6px arriba/abajo, 5px a los lados */
+    box-sizing: border-box !important;
+    top: 0 !important;
+}
+
+  .caracteristicas-container {
+    margin-top: 45px !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    width: 95vw !important;      /* O usa 100% si prefieres */
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+  .caracteristica {
+    width: 50vh !important;
+    padding: 10px 0 !important;
+    transform: none !important;
+    font-size: 8pt !important;
+    height: auto !important;
+  }
+  .terma{
+    justify-items: center !important;
+    justify-content: center !important;
+  }
+  .caracteristicas-container {
+    margin-top: 20px !important;
+    margin-bottom: 20px !important;
+  }
+  /* INFORMACIÓN */
+  .informacion {
+    flex-direction: column !important;
+    padding: 20px 10px !important;
+    height: auto !important;
+    gap: 10px !important;
+  }
+  .texto-informacion, .informacion .imagen img {
+    width: 90vw !important;
+    height: auto !important;
+    padding: 20px !important;
+    margin: 0 auto !important;
+  }
+  .imagen img{
+    border-radius: 30px !important;
+  }
+
+
+  /* BLOQUE COMPLEMENTO */
+  .bloque-complemento {
+    padding: 10px !important;
+  }
+  .texto {
+    flex-direction: column !important;
+    gap: 10px !important;
+    text-align: center !important;
+    margin: 0 !important;
+  }
+  .texto p, .texto h2 {
+    width: 100% !important;
+    font-size: 1.1em !important;
+  }
+
+  /* SECCIÓN PRODUCTOS (TERMA) */
+  .terma {
+    flex-direction: column !important;
+    padding: 10px !important;
+    max-width: 100vw !important;
+    min-width: 0 !important;
+    margin: 0 !important;
+  }
+  .animacion-contenedor {
+    display: none !important;
+  }
+  .imagen-con-texto {
+    flex-direction: column !important;
+    margin: 0 !important;
+    gap: 10px !important;
+    align-items: center !important;
+    width: 100vw !important;
+  }
+  .imagen-contenedor img {
+    max-width: 90vw !important;
+    height: auto !important;
+  }
+  
+  .texto-al-lado {
+    max-width: 95vw !important;
+    text-align: center !important;
+    padding: 0 10px !important;
+  }
+  .caracteristicas-container2 {
+    flex-direction: column !important;
+    gap: 10px !important;
+    align-items: center !important;
+    margin-bottom: 5px !important;
+    top:0 !important;
+    margin-top: 5px !important;
+    z-index: 10;
+    height: auto !important;
+    min-height: 60vh !important;
+  }
+  .caracteristica2 {
+    width: 50vh !important;
+    padding: 10px 0 !important;
+    transform: none !important;
+    font-size: 8pt !important;
+    height: auto !important;
+  }
+  .numero{
+    font-size: 2.0em !important;
+  }
+  .bloque-invisible{
+    margin-top: 0 !important;
+  }
+
+
+  /* PANEL SOLAR */
+  .seccion-paneles-solares {
+    flex-direction: column !important;
+    padding: 10px !important;
+    max-width: 100vw !important;
+    margin: 0 !important;
+    gap: 10px !important;
+    margin-top: 25px !important;  
+  }
+  .info-paneles {
+    padding: 0 !important;
+    text-align: center !important;
+  }
+  .imagen-paneles-container {
+    justify-content: center !important;
+    margin: 0 !important;
+  }
+  .imagen-paneles-muy-grande {
+    max-width: 90vw !important;
+    height: auto !important;
+  }
+
+  /* PROCESO FOTOVOLTAICO */
+  .proceso-fotovoltaico-completo {
+    padding: 10px !important;
+  }
+  .titulo-seccion {
+    width: 95vw !important;
+    padding: 10px !important;
+    font-size: 1.2em !important;
+  }
+  .contenedor-pasos {
+    flex-direction: column !important;
+    align-items: center !important;
+    max-width: 100vw !important;
+  }
+  .paso {
+    width: 95vw !important;
+    min-width: 0 !important;
+    margin: 10px 0 !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    text-align: center !important;
+  }
+  .icono-contenedor {
+    margin: 0 0 10px 0 !important;
+  }
+
+  /* BENEFICIOS */
+  .beneficios-paneles-solares {
+    padding: 10px !important;
+  }
+  .contenedor-beneficios {
+    max-width: 100vw !important;
+    padding: 0 !important;
+  }
+  .contenedor-cards {
+    flex-direction: column !important;
+    gap: 10px !important;
+    align-items: center !important;
+  }
+  .card-beneficio, .card-beneficio1 {
+    min-width: 0 !important;
+    width: 90vw !important;
+    height: auto !important;
+    margin: 0 auto !important;
+  }
+
+  /* FORMULARIO */
+  .contenedor-formulario {
+    flex-direction: column !important;
+    padding: 10px !important;
+    gap: 20px !important;
+    max-width: 100vw !important;
+  }
+  .imagen-formulario, .bloque-formulario-general {
+    width: 100vw !important;
+    margin: 0 !important;
+    padding: 10px !important;
+    border-radius: 15px !important;
+  }
+  .bloque-formulario-general {
+    width: 94.5vw !important;
+    margin-bottom: 20px !important;
+    margin-top: 0 !important;
+  }
+  .imagen-formulario img {
+    display: none !important;   
+  }
+  .boton-enviar{
+    width: 100% !important;
+    justify-content: center !important;
+
+  }
+
+  /* COMENTARIOS */
+
+.bloque-comentarios::before {
+display: none;
+}
+.bloque-comentarios::after {
+display: none;
+}
+
+  .bloque-comentarios .icono-titulo img {
+    margin-left: 8px !important;
+  }
+.bloque-comentarios .subtitulo-beneficios{
+    justify-content: center !important;
+    text-align: center !important;
+    left: 20px !important;
+    right: 20px !important;
+    margin: 0 30px !important;
+
+  }
+
+  .bloque-comentarios {
+    padding: 10px 0 !important;
+  }
+  .comentarios-fila1, .comentarios-fila2 {
+    gap: 10px !important;
+    display: flex !important;
+    align-items: center !important;
+  }
+  .comentario-claro, .comentario-oscuro {
+    width: 50vw !important;
+    height: auto !important;
+    padding: 10px !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    text-align: left !important;
+  }
+    .comentario-claro p, .comentario-oscuro p {
+    font-size: 4pt !important;
+  }
+
+      .comentario-claro h1, .comentario-oscuro h1 {
+    font-size: 10pt !important;
+  }
+
+  .comentario-claro img, .comentario-oscuro img {
+    margin-right: 10px !important;
+    margin-top: 30px !important;
+    width: 35px !important;
+    height: 35px !important;
+  }
+
+  .texto-comentario {
+    align-items: flex-start !important;
+  }
+
+  /* FOOTER */
+
+  .social-bar {
+    flex-direction: column !important;
+    align-items: center !important;
+    padding: 20px 10px !important;
+    height: auto !important;
+    gap: 20px !important;
+    font-size: 12px !important;
+  }
+  .bloque1, .bloque2, .bloque3 {
+    width: 100vw !important;
+    align-items: center !important;
+    text-align: center !important;
+    margin: 0px !important;
+    padding: 10px !important;
+  }
+
+  .bloque1 {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 20px !important;
+    width: 100vw !important;
+    text-align: left !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+  .logo-blanco {
+    margin: 0 !important;
+    width: 80px !important;
+  }
+  .iconos-redes {
+    margin: 0 !important;
+    justify-content: flex-start !important;
+  }
+
+  .logo-blanco {
+    width: 120px !important;
+    margin: 10px auto !important;
+  }
+  .iconos-redes {
+    justify-content: center !important;
+    margin-top: 10px !important;
+  }
+  .correo-ubicacion {
+    align-items: center !important;
+    justify-content: center !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    width: max-content !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 10px !important;
+  }
+  .correo-ubicacion > div {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    gap: 8px !important;
+  }
+
+  .correo-ubicacion p {
+    margin: 0 !important;
+    padding: 0 !important;
+    font-size: 0.5em !important;
+  }
+
+
+  .bloque3 a {
+    width: 50vw !important;
+    font-size: 1em !important;
+    height: auto !important;
+    padding: 10px !important;
+    margin-bottom: 10px !important;
+  }
+
+  /* CHATBOT */
+  #chat-widget {
+    display: none !important; /* Oculta el chatbot en móvil */
+  }
+
+
+  /* Ajustes para textos grandes */
+  h1, h2, h3, .titulo-paneles, .subtitulo-beneficios {
+    font-size: 1.2em !important;
+  }
+  p{
+    font-size: 0.9em !important;
+  } 
+}
+
+
+
+
+
+
+
+
